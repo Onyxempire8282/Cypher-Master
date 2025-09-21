@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Cipher - Professional Claims Management</title>
+    
+    <!-- Universal System - Base styling -->
+    <link rel="stylesheet" href="styles/universal-system.css">
+    
+    <!-- Master Tab Interface -->
+    <link rel="stylesheet" href="styles/master-tab-interface.css">
+    
+    <!-- Billing Dashboard Styling -->
+    <link rel="stylesheet" href="styles/billing-dashboard.css">
+    
+    <!-- Modal System Styling -->
+    <link rel="stylesheet" href="styles/modal-system.css">
+    
+    <!-- Glassmorphism Themes -->
+    <link rel="stylesheet" href="styles/glassmorphism-themes.css">
+    
+    <!-- Component-specific styles loaded dynamically -->
+</head>
+<body class="master-interface">
+    <header class="cipher-header">
+        <div class="header-content">
+            <div class="app-brand">
+                <span class="logo">🎤</span>
+                <span>Claim Cipher</span>
+                <span class="version-tag">Professional Suite</span>
+            </div>
+            
+            <!-- Master Tab Navigation -->
+            <nav class="master-tabs">
+                <button class="tab-btn active" data-tab="dashboard">
+                    <span class="tab-icon">🏠</span>
+                    <span class="tab-label">Dashboard</span>
+                </button>
+                <button class="tab-btn" data-tab="total-loss">
+                    <span class="tab-icon">📋</span>
+                    <span class="tab-label">Total Loss</span>
+                </button>
+                <button class="tab-btn" data-tab="route-optimizer">
+                    <span class="tab-icon">🗺️</span>
+                    <span class="tab-label">Routes</span>
+                </button>
+                <button class="tab-btn" data-tab="mileage-calculator">
+                    <span class="tab-icon">🧮</span>
+                    <span class="tab-label">Mileage</span>
+                </button>
+                <button class="tab-btn" data-tab="jobs-studio">
+                    <span class="tab-icon">💼</span>
+                    <span class="tab-label">Jobs</span>
+                </button>
+                <button class="tab-btn" data-tab="analytics">
+                    <span class="tab-icon">📊</span>
+                    <span class="tab-label">Analytics</span>
+                </button>
+                <button class="tab-btn" data-tab="firms-directory">
+                    <span class="tab-icon">🏢</span>
+                    <span class="tab-label">Firms</span>
+                </button>
+                <button class="tab-btn" data-tab="help-center">
+                    <span class="tab-icon">📚</span>
+                    <span class="tab-label">Help</span>
+                </button>
+            </nav>
+            
+            <div class="user-section">
+                <div class="user-info">
+                    <div class="user-name" id="userName">Professional User</div>
+                    <div class="user-role">Claims Specialist</div>
+                </div>
+                <button class="logout-btn cipher-btn cipher-btn--danger" onclick="handleLogout()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Master Content Container -->
+    <main class="master-content">
+        
+        <!-- Dashboard Tab -->
+        <div class="tab-content active" id="dashboard-tab">
+            <div class="dashboard-grid">
+                <div class="dashboard-welcome">
+                    <h1>Welcome back, <span id="dashboardUserName">Professional</span>!</h1>
+                    <p class="dashboard-subtitle">Your intelligent command center for claims management</p>
+                </div>
+                
+                <!-- Earnings Summary Widget -->
+                <div class="earnings-summary-container" id="earningsSummaryContainer">
+                    <!-- Populated by EarningsSummaryWidget -->
+                </div>
+                
+                <!-- Next Steps Widget -->
+                <div class="next-steps-container-wrapper" id="nextStepsContainer">
+                    <!-- Populated by NextStepsWidget -->
+                </div>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="dashboardStats">-</div>
+                            <div class="stat-label">Session Activity</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="dashboardEfficiency">-</div>
+                            <div class="stat-label">Workflow Efficiency</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="recommendationCount">-</div>
+                            <div class="stat-label">Smart Recommendations</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- This is where recommendations will now live -->
+                <div class="dashboard-recommendations" id="dashboardRecommendations">
+                    <!-- Populated by JavaScript -->
+                </div>
+                
+                <div class="dashboard-quick-actions">
+                    <h3>Quick Actions</h3>
+                    <div class="quick-actions-grid">
+                        <button class="quick-action-btn" data-action="total-loss">
+                            <span class="action-icon">📋</span>
+                            <span class="action-label">Process Claims</span>
+                        </button>
+                        <button class="quick-action-btn" data-action="route-optimizer">
+                            <span class="action-icon">🗺️</span>
+                            <span class="action-label">Plan Routes</span>
+                        </button>
+                        <button class="quick-action-btn" data-action="mileage-calculator">
+                            <span class="action-icon">🧮</span>
+                            <span class="action-label">Track Mileage</span>
+                        </button>
+                        <button class="quick-action-btn" data-action="jobs-studio">
+                            <span class="action-icon">💼</span>
+                            <span class="action-label">Manage Jobs</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Total Loss Tab -->
+        <div class="tab-content" id="total-loss-tab">
+            <div class="tab-header">
+                <h1>📋 Total Loss Documentation Package</h1>
+                <p>Upload CCC Estimate → Get Complete TPA Submission Package (BCIF + Summary + Valuation + Comparables)</p>
+            </div>
+            
+            <div class="workflow-container">
+                <!-- Upload Zone -->
+                <div class="upload-section cipher-glass">
+                    <div class="upload-zone" id="uploadZone">
+                        <div class="upload-icon">📄</div>
+                        <h3>Upload CCC Estimate</h3>
+                        <p>Drag & drop your PDF or click to browse</p>
+                        <input type="file" id="pdfFileInput" accept=".pdf" style="display: none;">
+                        <button class="cipher-btn cipher-btn--primary" onclick="document.getElementById('pdfFileInput').click()">
+                            Choose File
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress Workflow -->
+                <div class="workflow-progress" id="workflowProgress" style="display: none;">
+                    <div class="progress-step completed" id="step1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Extract Data</div>
+                    </div>
+                    <div class="progress-step" id="step2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Generate BCIF</div>
+                    </div>
+                    <div class="progress-step" id="step3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Vehicle Valuation</div>
+                    </div>
+                    <div class="progress-step" id="step4">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Complete Package</div>
+                    </div>
+                </div>
+
+                <!-- Results Container -->
+                <div class="results-container" id="resultsContainer" style="display: none;">
+                    <!-- Content loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Route Optimizer Tab -->
+        <div class="tab-content" id="route-optimizer-tab">
+            <div class="tab-header">
+                <h1>🗺️ Route Optimizer</h1>
+                <p>Plan efficient multi-stop routes with intelligent day splitting</p>
+                <div class="tab-actions">
+                    <button class="cipher-btn cipher-btn--secondary" onclick="window.masterInterface.exportToMileage()">
+                        🧮 Send to Mileage Calculator
+                    </button>
+                </div>
+            </div>
+            
+            <div class="route-optimizer-container">
+                <!-- Route optimizer content will be loaded here -->
+                <div class="loading-placeholder">
+                    <div class="spinner"></div>
+                    <p>Loading Route Optimizer...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mileage Calculator Tab -->
+        <div class="tab-content" id="mileage-calculator-tab">
+            <div class="tab-header">
+                <h1>🧮 Mileage Calculator</h1>
+                <p>Professional mileage tracking and reimbursement calculations</p>
+                <div class="tab-actions">
+                    <button class="cipher-btn cipher-btn--secondary" onclick="window.masterInterface.importFromRoute()">
+                        🗺️ Import from Route
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mileage-calculator-container">
+                <!-- Mileage calculator content will be loaded here -->
+                <div class="loading-placeholder">
+                    <div class="spinner"></div>
+                    <p>Loading Mileage Calculator...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jobs Studio Tab -->
+        <div class="tab-content" id="jobs-studio-tab">
+            <div class="tab-header">
+                <h1>💼 Jobs Studio</h1>
+                <p>Mobile integration and job management workflow</p>
+                <div class="tab-actions">
+                    <button class="cipher-btn cipher-btn--primary" onclick="window.masterInterface.syncMobileJobs()">
+                        📱 Sync Mobile Jobs
+                    </button>
+                </div>
+            </div>
+            
+            <div class="jobs-studio-container">
+                <!-- Jobs studio content will be loaded here -->
+                <div class="loading-placeholder">
+                    <div class="spinner"></div>
+                    <p>Loading Jobs Studio...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Firms Directory Tab -->
+        <div class="tab-content" id="firms-directory-tab">
+            <div class="tab-header">
+                <h1>🏢 Firms Directory</h1>
+                <p>Manage billing firms, rates, and client catalog</p>
+                <div class="tab-actions">
+                    <button class="cipher-btn cipher-btn--primary" id="addBillingFirmBtn">
+                        💰 Add Billing Firm
+                    </button>
+                    <button class="cipher-btn cipher-btn--secondary" id="addDirectoryFirmBtn">
+                        ➕ Add Directory Firm
+                    </button>
+                </div>
+            </div>
+            
+            <div class="firms-directory-container">
+                <div class="directory-sections">
+                    <div class="section billing-firms">
+                        <h3>💰 Your Billing Firms</h3>
+                        <p>Firms configured for earnings tracking and billing</p>
+                        <div class="billing-firms-container" id="billingFirmsContainer">
+                            <!-- Populated by billing system -->
+                        </div>
+                    </div>
+                    
+                    <div class="section hiring-firms">
+                        <h3>🎯 Hiring Firms</h3>
+                        <p>Companies currently seeking independent adjusters</p>
+                        <div class="firms-grid" id="hiringFirmsGrid">
+                            <!-- Loaded dynamically -->
+                        </div>
+                    </div>
+                    
+                    <div class="section client-catalog">
+                        <h3>📂 Your Client Catalog</h3>
+                        <p>General firm directory and contact information</p>
+                        <div class="firms-grid" id="clientCatalogGrid">
+                            <!-- Loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div class="tab-content" id="analytics-tab">
+            <div class="tab-header">
+                <h1>📊 Billing Analytics</h1>
+                <p>Performance insights, earnings trends, and billing management</p>
+                <div class="tab-actions">
+                    <button class="cipher-btn cipher-btn--secondary" id="exportAnalyticsBtn">
+                        📤 Export Report
+                    </button>
+                    <button class="cipher-btn cipher-btn--primary" id="manageFirmsBtn">
+                        🏢 Manage Firms
+                    </button>
+                </div>
+            </div>
+            
+            <div class="analytics-container">
+                <!-- Daily Tally Widget -->
+                <div class="analytics-section">
+                    <div class="daily-tally-container" id="dailyTallyContainer">
+                        <!-- Populated by DailyTallyWidget -->
+                    </div>
+                </div>
+                
+                <!-- Billing Analytics Widget -->
+                <div class="analytics-section">
+                    <div class="billing-analytics-container" id="billingAnalyticsContainer">
+                        <!-- Populated by BillingAnalyticsWidget -->
+                    </div>
+                </div>
+                
+                <!-- Billing Calendar Widget -->
+                <div class="analytics-section">
+                    <div class="billing-calendar-container" id="billingCalendarContainer">
+                        <!-- Populated by BillingCalendarWidget -->
+                    </div>
+                </div>
+                
+                <!-- Zapier Integration Section -->
+                <div class="analytics-section">
+                    <div class="automation-section cipher-glass">
+                        <h3>🔗 Email Automation</h3>
+                        <p>Configure Zapier integration for automated billing workflows</p>
+                        <div class="automation-placeholder">
+                            <div class="placeholder-icon">⚡</div>
+                            <h4>Zapier Integration</h4>
+                            <p>Connect your billing system to email automation</p>
+                            <button class="cipher-btn cipher-btn--secondary" id="zapierSetupBtn">
+                                📋 Setup Guide (Coming Soon)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Center Tab -->
+        <div class="tab-content" id="help-center-tab">
+            <div class="tab-header">
+                <h1>📚 Help Center</h1>
+                <p>Video tutorials and documentation for all Claim Cipher features</p>
+            </div>
+            
+            <div class="help-center-container">
+                <div class="help-sections">
+                    <div class="help-section">
+                        <h3>🎥 Video Tutorials</h3>
+                        <div class="video-grid">
+                            <div class="video-card">
+                                <div class="video-thumbnail">
+                                    <span class="play-icon">▶️</span>
+                                </div>
+                                <h4>Getting Started with Total Loss</h4>
+                                <p>Learn how to upload estimates and generate BCIF forms</p>
+                            </div>
+                            
+                            <div class="video-card">
+                                <div class="video-thumbnail">
+                                    <span class="play-icon">▶️</span>
+                                </div>
+                                <h4>Route Optimization Mastery</h4>
+                                <p>Advanced route planning and mileage tracking</p>
+                            </div>
+                            
+                            <div class="video-card">
+                                <div class="video-thumbnail">
+                                    <span class="play-icon">▶️</span>
+                                </div>
+                                <h4>Firms Directory Setup</h4>
+                                <p>Building your client catalog and finding new opportunities</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h3>📖 Documentation</h3>
+                        <div class="docs-list">
+                            <a href="#" class="doc-link">
+                                <span class="doc-icon">📄</span>
+                                <span>Total Loss Workflow Guide</span>
+                            </a>
+                            <a href="#" class="doc-link">
+                                <span class="doc-icon">📄</span>
+                                <span>Route Optimizer Best Practices</span>
+                            </a>
+                            <a href="#" class="doc-link">
+                                <span class="doc-icon">📄</span>
+                                <span>Mileage Tracking & Reimbursement</span>
+                            </a>
+                            <a href="#" class="doc-link">
+                                <span class="doc-icon">📄</span>
+                                <span>Mobile Integration Setup</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Supabase Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Development Configuration -->
+    <script src="config/dev-config.js"></script>
+    
+    <!-- Authentication and Database -->
+    <script src="config/supabase-config.js"></script>
+    <script src="scripts/auth-service.js"></script>
+    
+    <!-- Global Scripts -->
+    <script src="config/github-pages-env.js"></script>
+    <script src="config/api-config-production.js"></script>
+    <script src="scripts/cipher-core.js"></script>
+    
+    <!-- Billing System Scripts -->
+    <script src="scripts/services/modal-manager.js"></script>
+    <script src="scripts/services/google-maps-service.js"></script>
+    <script src="scripts/billing-system/job-billing-service.js"></script>
+    <script src="scripts/billing-system/daily-tally-widget.js"></script>
+    <script src="scripts/billing-system/billing-analytics-widget.js"></script>
+    <script src="scripts/billing-calendar/billing-calendar-widget.js"></script>
+    <script src="scripts/dashboard/earnings-summary-widget.js"></script>
+    <script src="scripts/dashboard/next-steps-widget.js"></script>
+    <script src="scripts/onboarding/firm-configuration.js"></script>
+    
+    <!-- Master Interface Controller -->
+    <script src="scripts/master-interface-controller.js"></script>
+    
+    <!-- Initialize Master Interface -->
+    <script>
+        // Initialize the Master Interface
+        console.log('🎛️ Initializing Master Interface...');
+        
+        function initializeMasterInterface() {
+            try {
+                if (typeof MasterInterfaceController === 'undefined') {
+                    console.log('⏳ MasterInterfaceController not yet loaded, retrying...');
+                    setTimeout(initializeMasterInterface, 50);
+                    return;
+                }
+                
+                window.masterInterface = new MasterInterfaceController();
+                console.log('✅ Master Interface initialization complete');
+            } catch (error) {
+                console.error('❌ Master Interface initialization failed:', error);
+                setTimeout(initializeMasterInterface, 100);
+            }
+        }
+        
+        if (document.readyState === 'loading') {
+            window.addEventListener('DOMContentLoaded', initializeMasterInterface);
+        } else {
+            initializeMasterInterface();
+        }
+        
+        // Global logout handler
+        function handleLogout() {
+            console.log('🚪 Logging out...');
+            
+            // Clear local storage
+            localStorage.removeItem('userCipher');
+            localStorage.removeItem('colorScheme');
+            localStorage.removeItem('cipherComplete');
+            
+            // Sign out from Supabase if available
+            if (window.authService) {
+                window.authService.signOut();
+            }
+            
+            // Redirect to login
+            window.location.href = 'cipher-begins.html';
+        }
+    </script>
+    
+    <!-- Tab-specific scripts loaded dynamically -->
+</body>
+</html>

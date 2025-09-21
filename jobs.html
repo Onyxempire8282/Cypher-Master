@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs Studio - Claim Cipher</title>
+    
+    <!-- All Page Styles -->
+    <link rel="stylesheet" href="styles/pages.css">
+</head>
+<body class="master-interface" data-page="jobs">
+    <header class="cipher-header">
+        <div class="header-content">
+            <div class="app-brand">
+                <span class="logo">🎤</span>
+                <span>Claim Cipher</span>
+                <span class="version-tag">Professional Suite</span>
+            </div>
+            
+            <!-- Master Tab Navigation -->
+            <nav class="master-tabs">
+                <a href="dashboard.html" class="tab-btn" data-page="dashboard">
+                    <span class="tab-icon">🏠</span>
+                    <span class="tab-label">Dashboard</span>
+                </a>
+                <!-- Claims Workflow Order: Route → Mileage → Jobs → Complete -->
+                <a href="route-optimizer.html" class="tab-btn" data-page="route-optimizer">
+                    <span class="tab-icon">🗺️</span>
+                    <span class="tab-label">Routes</span>
+                </a>
+                <a href="mileage-calculator.html" class="tab-btn" data-page="mileage-calculator">
+                    <span class="tab-icon">🧮</span>
+                    <span class="tab-label">Mileage</span>
+                </a>
+                <a href="jobs.html" class="tab-btn active" data-page="jobs">
+                    <span class="tab-icon">💼</span>
+                    <span class="tab-label">Jobs</span>
+                </a>
+                <a href="calendar.html" class="tab-btn" data-page="calendar">
+                    <span class="tab-icon">📅</span>
+                    <span class="tab-label">Calendar</span>
+                </a>
+                <a href="total-loss.html" class="tab-btn" data-page="total-loss">
+                    <span class="tab-icon">📋</span>
+                    <span class="tab-label">Total Loss</span>
+                </a>
+                <!-- Supporting Tools -->
+                <a href="analytics.html" class="tab-btn" data-page="analytics">
+                    <span class="tab-icon">📊</span>
+                    <span class="tab-label">Analytics</span>
+                </a>
+                <a href="firms.html" class="tab-btn" data-page="firms">
+                    <span class="tab-icon">🏢</span>
+                    <span class="tab-label">Firms</span>
+                </a>
+                <a href="help.html" class="tab-btn" data-page="help">
+                    <span class="tab-icon">📚</span>
+                    <span class="tab-label">Help</span>
+                </a>
+            </nav>
+            
+            
+            <div class="user-section">
+                <div class="user-info">
+                    <div class="user-name" id="userName">Professional User</div>
+                    <div class="user-role">Claims Specialist</div>
+                </div>
+                <button class="logout-btn cipher-btn cipher-btn--danger" onclick="handleLogout()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Jobs Studio Content -->
+    <main class="master-content">
+        <!-- Global Workflow Tracker Container -->
+        <div class="workflow-tracker-container">
+            <div class="workflow-tracker">
+                <div class="workflow-step" data-step="route">Route</div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step" data-step="mileage">Mileage</div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step active" data-step="jobs">Jobs</div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-step" data-step="complete">Complete</div>
+            </div>
+        </div>
+        
+        <div class="tab-header">
+            <h1>💼 Jobs Studio</h1>
+            <p>Mobile integration and job management workflow</p>
+            <div class="tab-actions">
+                <button class="cipher-btn cipher-btn--primary" id="syncMobileJobsBtn">
+                    📱 Sync Mobile Jobs
+                </button>
+                <button class="cipher-btn cipher-btn--secondary" id="addJobBtn">
+                    ➕ Add New Job
+                </button>
+            </div>
+        </div>
+        
+        <div class="jobs-studio-container">
+            <!-- Job Management Grid -->
+            <div class="jobs-grid">
+                <!-- Active Jobs Section -->
+                <div class="jobs-section active-jobs">
+                    <div class="section-header">
+                        <h3>🔥 Active Jobs</h3>
+                        <span class="jobs-count" id="activeJobsCount">3</span>
+                    </div>
+                    <div class="jobs-list" id="activeJobsList">
+                        <!-- Sample active job -->
+                        <div class="job-card active">
+                            <div class="job-header">
+                                <div class="job-info">
+                                    <h4>2024-INS-001234</h4>
+                                    <p class="job-type">Auto Total Loss</p>
+                                </div>
+                                <div class="job-status active">Active</div>
+                            </div>
+                            <div class="job-details">
+                                <div class="detail-row">
+                                    <span class="label">Firm:</span>
+                                    <span class="value">Crawford & Company</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="label">Location:</span>
+                                    <span class="value">Atlanta, GA</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="label">Est. Earnings:</span>
+                                    <span class="value earnings">$750.00</span>
+                                </div>
+                            </div>
+                            <div class="job-actions">
+                                <button class="action-btn primary">View Details</button>
+                                <button class="action-btn secondary">Update Status</button>
+                            </div>
+                        </div>
+                        
+                        <div class="job-card active">
+                            <div class="job-header">
+                                <div class="job-info">
+                                    <h4>2024-INS-001235</h4>
+                                    <p class="job-type">Property Damage</p>
+                                </div>
+                                <div class="job-status in-progress">In Progress</div>
+                            </div>
+                            <div class="job-details">
+                                <div class="detail-row">
+                                    <span class="label">Firm:</span>
+                                    <span class="value">USAA</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="label">Location:</span>
+                                    <span class="value">Birmingham, AL</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="label">Est. Earnings:</span>
+                                    <span class="value earnings">$450.00</span>
+                                </div>
+                            </div>
+                            <div class="job-actions">
+                                <button class="action-btn primary">View Details</button>
+                                <button class="action-btn secondary">Update Status</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Completed Jobs Section -->
+                <div class="jobs-section completed-jobs">
+                    <div class="section-header">
+                        <h3>✅ Completed Jobs</h3>
+                        <span class="jobs-count" id="completedJobsCount">12</span>
+                    </div>
+                    <div class="jobs-list" id="completedJobsList">
+                        <div class="job-card completed">
+                            <div class="job-header">
+                                <div class="job-info">
+                                    <h4>2024-INS-001230</h4>
+                                    <p class="job-type">Auto Total Loss</p>
+                                </div>
+                                <div class="job-status completed">Completed</div>
+                            </div>
+                            <div class="job-details">
+                                <div class="detail-row">
+                                    <span class="label">Firm:</span>
+                                    <span class="value">State Farm</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="label">Completed:</span>
+                                    <span class="value">Jan 15, 2024</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="label">Earnings:</span>
+                                    <span class="value earnings">$800.00</span>
+                                </div>
+                            </div>
+                            <div class="job-actions">
+                                <button class="action-btn secondary">View Report</button>
+                                <button class="action-btn tertiary">Archive</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Job Creation Section -->
+                <div class="jobs-section job-creation">
+                    <div class="section-header">
+                        <h3>➕ Add New Job</h3>
+                    </div>
+                    <div class="creation-options">
+                        <div class="option-card" id="manualJobBtn">
+                            <div class="option-icon">✍️</div>
+                            <h4>Manual Entry</h4>
+                            <p>Create job manually with form input</p>
+                            <button class="action-btn primary">Create Job</button>
+                        </div>
+                        
+                        <div class="option-card" id="mobileJobBtn">
+                            <div class="option-icon">📱</div>
+                            <h4>Mobile Import</h4>
+                            <p>Import from mobile app or sync</p>
+                            <button class="action-btn primary">Sync Mobile</button>
+                        </div>
+                        
+                        <div class="option-card" id="zapierJobBtn">
+                            <div class="option-icon">⚡</div>
+                            <h4>Zapier Integration</h4>
+                            <p>Auto-import from email or CRM</p>
+                            <button class="action-btn primary">Setup Zapier</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="jobs-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="totalJobsCount">15</div>
+                        <div class="stat-label">Total Jobs</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="totalEarnings">$8,750</div>
+                        <div class="stat-label">Total Earnings</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="avgJobValue">$583</div>
+                        <div class="stat-label">Avg Job Value</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Supabase Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Configuration -->
+    <script src="config/dev-config.js"></script>
+    <script src="config/supabase-config.js"></script>
+    
+    <!-- Color Scheme Manager (FIRST - before other scripts) -->
+    <script src="scripts/shared/color-scheme-manager.js"></script>
+    
+    <!-- Core Services -->
+    <script src="scripts/auth-service.js"></script>
+    <script src="scripts/services/modal-manager.js"></script>
+    <script src="scripts/billing-system/job-billing-service.js"></script>
+    
+    <!-- Jobs Management -->
+    <script src="scripts/jobs/jobs-studio-controller.js"></script>
+    
+    <!-- Master Interface Controller -->
+    <script src="scripts/master-interface-controller.js"></script>
+    
+    <script>
+        // Initialize jobs studio
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('💼 Jobs Studio initialized');
+            
+            // Initialize master interface
+            if (window.MasterInterfaceController) {
+                window.masterInterface = new MasterInterfaceController();
+                window.masterInterface.activateTab('jobs-studio');
+            }
+            
+            // Initialize jobs studio
+            if (window.JobsStudioController) {
+                window.jobsStudio = new JobsStudioController();
+            }
+            
+            // Handle logout
+            window.handleLogout = function() {
+                if (window.authService && window.authService.logout) {
+                    window.authService.logout();
+                }
+                window.location.href = 'cipher-begins.html';
+            };
+        });
+    </script>
+</body>
+</html>

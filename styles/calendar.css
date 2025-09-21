@@ -1,0 +1,671 @@
+/* Calendar & Billing Page Styles */
+
+/* Calendar Grid Layout */
+.calendar-grid-container {
+    display: grid;
+    grid-template-columns: 280px 1fr 320px;
+    gap: 20px;
+    height: calc(100vh - 200px);
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+/* Left Sidebar - Controls */
+.calendar-sidebar {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.calendar-controls h3 {
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #202124;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Date Navigation */
+.date-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+}
+
+.nav-btn {
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+    background: #1557b0;
+    transform: scale(1.1);
+}
+
+.current-month {
+    font-weight: 700;
+    font-size: 18px;
+    color: #202124;
+    text-align: center;
+    flex: 1;
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.calendar-action-btn {
+    background: linear-gradient(135deg, #34a853 0%, #4caf50 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.calendar-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 168, 83, 0.3);
+}
+
+/* Calendar Filters */
+.calendar-filters h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #5f6368;
+}
+
+.filter-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #202124;
+    cursor: pointer;
+}
+
+.filter-option input[type="checkbox"] {
+    accent-color: #1a73e8;
+}
+
+/* Export Section */
+.export-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8f0fe 100%);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #dadce0;
+}
+
+.export-section h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #202124;
+}
+
+.export-section p {
+    margin: 0 0 16px 0;
+    font-size: 13px;
+    color: #5f6368;
+}
+
+.export-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.export-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.export-btn:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+}
+
+.google-export { color: #ea4335; }
+.apple-export { color: #007aff; }
+.outlook-export { color: #0078d4; }
+
+/* Main Calendar Display */
+.calendar-main {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 20px;
+    overflow: hidden;
+}
+
+.calendar-view {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #5f6368;
+}
+
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #e8eaed;
+    border-top: 3px solid #1a73e8;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Right Sidebar - Billing */
+.billing-sidebar {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.billing-summary h3 {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #202124;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Billing Totals */
+.billing-totals {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.total-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8f0fe 100%);
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid #dadce0;
+    text-align: center;
+}
+
+.total-label {
+    font-size: 12px;
+    color: #5f6368;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.total-amount {
+    font-size: 18px;
+    font-weight: 600;
+    color: #202124;
+}
+
+.total-amount.pending {
+    color: #ea8600;
+}
+
+.total-amount.completed {
+    color: #34a853;
+}
+
+/* Payment Schedule */
+.payment-schedule,
+.completed-jobs {
+    margin-bottom: 24px;
+}
+
+.payment-schedule h4,
+.completed-jobs h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #5f6368;
+}
+
+.payment-list,
+.completed-jobs-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.no-payments,
+.no-completed-jobs {
+    text-align: center;
+    color: #5f6368;
+    font-size: 13px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+/* Schedule Modal */
+.schedule-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    z-index: 1001;
+}
+
+.modal-header {
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid #e8eaed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #202124;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #5f6368;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    background: #f8f9fa;
+    color: #202124;
+}
+
+.modal-body {
+    padding: 20px 24px 24px;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #202124;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #202124;
+    background: white;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #e8eaed;
+}
+
+.cancel-btn,
+.schedule-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancel-btn {
+    background: #f8f9fa;
+    color: #5f6368;
+    border: 1px solid #dadce0;
+}
+
+.cancel-btn:hover {
+    background: #e8eaed;
+}
+
+.schedule-btn {
+    background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+}
+
+.schedule-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .calendar-grid-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        height: auto;
+        gap: 16px;
+    }
+    
+    .calendar-sidebar,
+    .billing-sidebar {
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .calendar-grid-container {
+        padding: 12px;
+        gap: 12px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        max-height: 85vh;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .cancel-btn,
+    .schedule-btn {
+        width: 100%;
+    }
+}
+
+/* Calendar Grid Styles */
+.calendar-header {
+    margin-bottom: 16px;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: #dadce0;
+    border-radius: 8px;
+    padding: 1px;
+    margin-bottom: 1px;
+}
+
+.weekday {
+    background: #f8f9fa;
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #5f6368;
+    text-transform: uppercase;
+}
+
+.weekday:first-child {
+    border-top-left-radius: 7px;
+}
+
+.weekday:last-child {
+    border-top-right-radius: 7px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: #dadce0;
+    border-radius: 0 0 8px 8px;
+    padding: 1px;
+    min-height: 400px;
+}
+
+.calendar-day {
+    background: white;
+    padding: 8px 6px;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    border: 1px solid transparent;
+}
+
+.calendar-day:hover {
+    background: #f8f9fa;
+    border-color: #e8eaed;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.calendar-day.empty {
+    background: #f8f9fa;
+    cursor: default;
+}
+
+.calendar-day.today {
+    background: #e8f0fe;
+    border: 2px solid #1a73e8;
+    box-shadow: 0 2px 8px rgba(26, 115, 232, 0.2);
+}
+
+.calendar-day.today .day-number {
+    color: #1a73e8;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.calendar-day.has-appointments {
+    border-left: 4px solid #34a853;
+    background: #f8fff8;
+}
+
+.calendar-day.has-completed-jobs {
+    border-right: 4px solid #fbbc04;
+}
+
+.day-number {
+    font-size: 16px;
+    font-weight: 700;
+    color: #202124;
+    margin-bottom: 6px;
+    text-align: center;
+    background: rgba(26, 115, 232, 0.05);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+}
+
+.day-events {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.event {
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.event.appointment {
+    background: rgba(52, 168, 83, 0.1);
+    color: #34a853;
+    border: 1px solid rgba(52, 168, 83, 0.3);
+}
+
+.event.completed-job {
+    background: rgba(251, 188, 4, 0.1);
+    color: #ea8600;
+    border: 1px solid rgba(251, 188, 4, 0.3);
+}
+
+.event.appointment.more {
+    background: rgba(52, 168, 83, 0.2);
+    color: #34a853;
+    font-weight: 600;
+    font-size: 9px;
+    text-align: center;
+}
+
+/* Payment and Job Items */
+.payment-item,
+.completed-job-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+    border: 1px solid #e8eaed;
+}
+
+.payment-firm,
+.job-firm {
+    font-weight: 600;
+    font-size: 14px;
+    color: #202124;
+    margin-bottom: 4px;
+}
+
+.payment-amount,
+.job-amount {
+    font-size: 16px;
+    font-weight: 700;
+    color: #34a853;
+    margin-bottom: 4px;
+}
+
+.payment-date,
+.job-date {
+    font-size: 12px;
+    color: #5f6368;
+}
+
+.job-type {
+    font-size: 12px;
+    color: #1a73e8;
+    margin-bottom: 4px;
+}

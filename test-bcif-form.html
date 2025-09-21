@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test BCIF Form Loading</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <h1>🧪 BCIF Form Loading Test</h1>
+    <p>Testing if the system can load and access the blank BCIF form.</p>
+    
+    <div id="results"></div>
+    
+    <button onclick="testBCIFFormAccess()">Test BCIF Form Access</button>
+    
+    <!-- PDF Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    
+    <script>
+        async function testBCIFFormAccess() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<div class="info">🔄 Testing BCIF form access...</div>';
+            
+            try {
+                // Test 1: Check if PDF-lib is loaded
+                if (typeof PDFLib === 'undefined') {
+                    results.innerHTML += '<div class="error">❌ PDF-lib not loaded</div>';
+                    return;
+                }
+                results.innerHTML += '<div class="success">✅ PDF-lib loaded successfully</div>';
+                
+                // Test 2: Try to fetch the BCIF form
+                const formPath = './assets/forms/blank-bcif-form.pdf';
+                results.innerHTML += `<div class="info">🔄 Attempting to fetch: ${formPath}</div>`;
+                
+                const response = await fetch(formPath);
+                
+                if (!response.ok) {
+                    results.innerHTML += `<div class="error">❌ Failed to fetch form: HTTP ${response.status}</div>`;
+                    return;
+                }
+                
+                results.innerHTML += '<div class="success">✅ BCIF form fetched successfully</div>';
+                
+                // Test 3: Try to load it with PDF-lib
+                const arrayBuffer = await response.arrayBuffer();
+                results.innerHTML += `<div class="success">✅ Form loaded as ArrayBuffer (${arrayBuffer.byteLength} bytes)</div>`;
+                
+                const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+                results.innerHTML += '<div class="success">✅ PDF document parsed successfully</div>';
+                
+                // Test 4: Check for form fields
+                const form = pdfDoc.getForm();
+                const fields = form.getFields();
+                results.innerHTML += `<div class="success">✅ Found ${fields.length} form fields in BCIF</div>`;
+                
+                // List some field names
+                if (fields.length > 0) {
+                    const fieldNames = fields.slice(0, 10).map(field => field.getName()).join(', ');
+                    results.innerHTML += `<div class="info">📋 First 10 fields: ${fieldNames}</div>`;
+                }
+                
+                results.innerHTML += '<div class="success">🎉 All tests passed! BCIF form is ready for use.</div>';
+                
+            } catch (error) {
+                results.innerHTML += `<div class="error">❌ Error: ${error.message}</div>`;
+                console.error('BCIF Form Test Error:', error);
+            }
+        }
+        
+        // Auto-run test on page load
+        window.addEventListener('DOMContentLoaded', testBCIFFormAccess);
+    </script>
+</body>
+</html>

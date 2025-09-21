@@ -1,0 +1,270 @@
+/**
+ * Dashboard Page Styling
+ * Main dashboard with widgets, stats, and quick actions
+ */
+
+/* Dashboard-Specific Layout */
+body[data-page="dashboard"] {
+    background: linear-gradient(135deg, 
+        var(--cipher-bg-primary) 0%, 
+        var(--cipher-bg-secondary) 50%, 
+        var(--cipher-bg-accent) 100%);
+}
+
+/* Dashboard Grid Layout */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Dashboard Unique Visual Identity */
+.dashboard-grid::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 80%, var(--cipher-accent) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, var(--cipher-accent) 0%, transparent 50%);
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Welcome Section */
+.dashboard-welcome {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.dashboard-welcome h1 {
+    margin: 0 0 8px 0;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--glass-text-primary);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dashboard-subtitle {
+    margin: 0;
+    font-size: 16px;
+    color: var(--glass-text-secondary);
+    font-weight: 400;
+}
+
+/* Stats Cards */
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.stat-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-backdrop-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px var(--glass-shadow);
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--glass-shadow);
+}
+
+.stat-icon {
+    font-size: 32px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--glass-accent);
+    margin-bottom: 4px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--glass-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+/* Recommendations Section */
+.dashboard-recommendations {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-backdrop-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px 0;
+    box-shadow: 0 4px 16px var(--glass-shadow);
+}
+
+.recommendations-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.recommendations-icon {
+    font-size: 24px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.recommendations-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--glass-text-primary);
+}
+
+.recommendations-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.recommendation-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.recommendation-item:last-child {
+    border-bottom: none;
+}
+
+.recommendation-icon {
+    font-size: 16px;
+    color: var(--glass-accent);
+}
+
+.recommendation-text {
+    flex: 1;
+    font-size: 14px;
+    color: var(--glass-text-secondary);
+    line-height: 1.5;
+}
+
+/* Quick Actions */
+.dashboard-quick-actions {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-backdrop-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 16px var(--glass-shadow);
+}
+
+.dashboard-quick-actions h3 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--glass-text-primary);
+    text-align: center;
+}
+
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.quick-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+}
+
+.quick-action-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px var(--glass-shadow);
+    border-color: var(--glass-accent);
+    text-decoration: none;
+    color: inherit;
+}
+
+.action-icon {
+    font-size: 32px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.action-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--glass-text-primary);
+    text-align: center;
+}
+
+/* Widget Containers */
+.earnings-summary-container,
+.next-steps-container-wrapper {
+    margin: 20px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        padding: 16px;
+        gap: 16px;
+    }
+    
+    .dashboard-welcome h1 {
+        font-size: 24px;
+    }
+    
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .quick-actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .stat-card {
+        padding: 16px;
+    }
+    
+    .quick-action-btn {
+        padding: 16px;
+    }
+    
+    .action-icon {
+        font-size: 24px;
+    }
+}

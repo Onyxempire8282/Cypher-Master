@@ -1,0 +1,31 @@
+/**
+ * Mileage Calculator Page Styling
+ */
+
+.mileage-calculator-container {
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Mileage Calculator Unique Visual Identity */
+body[data-page="mileage-calculator"] {
+    background: 
+        linear-gradient(45deg, var(--cipher-bg-primary) 0%, #1a1a2e 25%, var(--cipher-bg-secondary) 50%, #16213e 75%, var(--cipher-bg-primary) 100%);
+}
+
+body[data-page="mileage-calculator"]::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(90deg, var(--cipher-accent) 1px, transparent 1px),
+        linear-gradient(0deg, var(--cipher-accent) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: -1;
+}

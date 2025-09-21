@@ -1,0 +1,349 @@
+/**
+ * MASTER NETFLIX-STYLE GLASSMORPHISM SYSTEM
+ * Unified neutral color system with clean glassmorphism effects
+ * Mimics Netflix's sophisticated neutral palette
+ */
+
+/* =================================
+   NETFLIX-STYLE NEUTRAL VARIABLES
+   ================================= */
+:root {
+    /* ========== NETFLIX-STYLE BASE BACKGROUND ========== */
+    --cipher-bg-primary: #0f0f0f;
+    --cipher-bg-secondary: #1a1a1a;
+    --cipher-bg-accent: #2d2d2d;
+    
+    /* ========== NEUTRAL THEME COLORS ========== */
+    --cipher-accent: #e50914;
+    --cipher-accent-dark: #b20610;
+    --cipher-accent-light: #ff1e2d;
+    --cipher-accent-lighter: #ff4757;
+    --cipher-secondary: #f5f5f1;
+    --cipher-secondary-dark: #d4d4d2;
+    
+    /* ========== NETFLIX-STYLE TEXT COLORS ========== */
+    --cipher-text-primary: rgba(255, 255, 255, 0.95);
+    --cipher-text-secondary: rgba(255, 255, 255, 0.75);
+    --cipher-text-muted: rgba(255, 255, 255, 0.55);
+    --cipher-text-accent: #ffffff;
+    
+    /* ========== NETFLIX-STYLE STATUS COLORS ========== */
+    --cipher-success: #46d369;
+    --cipher-success-dark: #2fb344;
+    --cipher-warning: #ffa726;
+    --cipher-warning-dark: #ff9800;
+    --cipher-danger: #e50914;
+    --cipher-danger-dark: #b20610;
+    
+    /* ========== NETFLIX-STYLE GLASSMORPHISM ========== */
+    --glass-bg-primary: rgba(255, 255, 255, 0.08);
+    --glass-bg-secondary: rgba(255, 255, 255, 0.05);
+    --glass-bg-subtle: rgba(255, 255, 255, 0.03);
+    
+    --glass-border-primary: rgba(255, 255, 255, 0.15);
+    --glass-border-secondary: rgba(255, 255, 255, 0.1);
+    --glass-border-subtle: rgba(255, 255, 255, 0.06);
+    
+    --glass-shadow-primary: rgba(0, 0, 0, 0.25);
+    --glass-shadow-secondary: rgba(0, 0, 0, 0.15);
+    --glass-shadow-accent: rgba(229, 9, 20, 0.2);
+    
+    --glass-backdrop-blur: 20px;
+    --glass-backdrop-blur-heavy: 28px;
+    --glass-backdrop-blur-light: 12px;
+    
+    /* ========== NETFLIX-STYLE GRADIENTS ========== */
+    --netflix-gradient-primary: linear-gradient(135deg, 
+        #0f0f0f 0%, 
+        #1a1a1a 25%, 
+        #2d2d2d 50%, 
+        #1a1a1a 75%, 
+        #0f0f0f 100%);
+        
+    --netflix-gradient-glass: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0.05) 50%, 
+        rgba(255, 255, 255, 0.08) 100%);
+        
+    --netflix-gradient-button: linear-gradient(135deg, 
+        rgba(229, 9, 20, 0.9) 0%, 
+        rgba(178, 6, 16, 0.85) 50%, 
+        rgba(229, 9, 20, 0.9) 100%);
+        
+    --netflix-gradient-card: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.08) 0%, 
+        rgba(255, 255, 255, 0.03) 50%, 
+        rgba(255, 255, 255, 0.06) 100%);
+}
+
+/* Force Netflix-style theme on all pages */
+body,
+html {
+    background: var(--netflix-gradient-primary) !important;
+    min-height: 100vh !important;
+    color: var(--cipher-text-primary) !important;
+}
+
+/* ========================================
+   UNIVERSAL BACKGROUND SYSTEM
+   ======================================== */
+
+/* Ensure all main containers use Netflix-style background */
+.master-content,
+.main-content,
+.page-content,
+.dashboard-container,
+.route-optimizer-container,
+.mileage-calculator-container,
+.jobs-studio-container,
+.route-workflow-container,
+body[data-page="route-optimizer"],
+body[data-page="mileage-calculator"],
+body[data-page="jobs"],
+body[data-page="dashboard"],
+body[data-page="total-loss"],
+body[data-page="analytics"],
+body[data-page="firms"],
+body[data-page="help"],
+body[data-page="calendar"] {
+    background: var(--netflix-gradient-primary) !important;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Add subtle Netflix-style ambient lighting overlay */
+.master-content::before,
+.main-content::before,
+.route-workflow-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 25% 15%, rgba(255, 255, 255, 0.02) 0%, transparent 70%),
+        radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.015) 0%, transparent 60%),
+        radial-gradient(circle at 50% 75%, rgba(229, 9, 20, 0.01) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ========================================
+   UNIVERSAL GLASSMORPHISM COMPONENTS
+   ======================================== */
+
+/* Primary Glass Panels */
+.glass-panel,
+.cipher-glass,
+.cipher-card,
+.glass-card,
+.route-planning-panel,
+.route-map-panel,
+.job-pipeline-panel,
+.billing-sidebar,
+.calendar-sidebar,
+.calendar-main {
+    background: var(--glass-bg-primary) !important;
+    backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(180%) !important;
+    border: 1px solid var(--glass-border-primary) !important;
+    border-radius: 20px !important;
+    box-shadow: 
+        0 8px 32px var(--glass-shadow-primary),
+        0 2px 16px var(--glass-shadow-secondary),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Secondary Glass Elements */
+.glass-panel-secondary,
+.day-cluster,
+.job-card,
+.stat-card,
+.total-card {
+    background: var(--glass-bg-secondary) !important;
+    backdrop-filter: blur(var(--glass-backdrop-blur-light)) !important;
+    -webkit-backdrop-filter: blur(var(--glass-backdrop-blur-light)) !important;
+    border: 1px solid var(--glass-border-secondary) !important;
+    border-radius: 16px !important;
+    box-shadow: 
+        0 4px 16px var(--glass-shadow-secondary),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Glass Headers */
+.panel-header,
+.map-header,
+.pipeline-header {
+    background: var(--netflix-gradient-glass) !important;
+    color: var(--cipher-text-accent) !important;
+    backdrop-filter: blur(var(--glass-backdrop-blur-light)) !important;
+    border-bottom: 1px solid var(--glass-border-subtle) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Glass Buttons */
+.workflow-btn--primary,
+.cipher-btn--primary,
+.glass-button-primary {
+    background: var(--netflix-gradient-button) !important;
+    color: var(--cipher-text-accent) !important;
+    box-shadow: 
+        0 4px 16px var(--glass-shadow-accent),
+        0 2px 8px var(--glass-shadow-primary),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid var(--glass-border-primary) !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.workflow-btn--primary:hover,
+.cipher-btn--primary:hover {
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 
+        0 6px 20px var(--glass-shadow-accent),
+        0 3px 10px var(--glass-shadow-primary),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+    background: linear-gradient(135deg, 
+        rgba(229, 9, 20, 1) 0%, 
+        rgba(178, 6, 16, 0.95) 50%, 
+        rgba(229, 9, 20, 1) 100%) !important;
+    border-color: var(--glass-border-secondary) !important;
+}
+
+/* Glass Secondary Buttons */
+.workflow-btn--secondary,
+.cipher-btn--secondary {
+    background: var(--glass-bg-subtle) !important;
+    color: var(--cipher-text-primary) !important;
+    border: 1px solid var(--glass-border-secondary) !important;
+    backdrop-filter: blur(12px) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 1px 3px var(--glass-shadow-secondary) !important;
+}
+
+.workflow-btn--secondary:hover,
+.cipher-btn--secondary:hover {
+    background: var(--glass-bg-secondary) !important;
+    border-color: var(--glass-border-primary) !important;
+    transform: translateY(-1px) scale(1.01) !important;
+    box-shadow: 0 2px 6px var(--glass-shadow-primary) !important;
+    color: var(--cipher-text-primary) !important;
+}
+
+/* ========================================
+   WORKFLOW ACTIONS BAR
+   ======================================== */
+.workflow-actions {
+    background: var(--glass-bg-primary) !important;
+    border-radius: 20px !important;
+    backdrop-filter: blur(var(--glass-backdrop-blur-heavy)) !important;
+    box-shadow: 
+        0 8px 32px var(--glass-shadow-accent),
+        0 2px 16px var(--glass-shadow-secondary),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid var(--glass-border-primary) !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* ========================================
+   INPUTS AND FORMS
+   ======================================== */
+.glass-input,
+.form-cipher-input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+    background: var(--glass-bg-subtle) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid var(--glass-border-subtle) !important;
+    color: var(--cipher-text-primary) !important;
+    border-radius: 12px !important;
+    transition: all 0.3s ease !important;
+}
+
+.glass-input:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    background: var(--glass-bg-secondary) !important;
+    border-color: var(--glass-border-primary) !important;
+    box-shadow: 
+        0 0 0 3px rgba(16, 185, 129, 0.1),
+        0 4px 12px var(--glass-shadow-primary) !important;
+    outline: none !important;
+}
+
+/* ========================================
+   NAVIGATION AND HEADERS
+   ======================================== */
+.cipher-header,
+header {
+    background: rgba(2, 44, 34, 0.85) !important;
+    backdrop-filter: blur(25px) saturate(180%) !important;
+    border-bottom: 1px solid var(--glass-border-subtle) !important;
+    box-shadow: 0 4px 16px var(--glass-shadow-primary) !important;
+}
+
+/* Tab Navigation */
+.master-tabs .tab-btn {
+    background: var(--glass-bg-subtle) !important;
+    border: 1px solid var(--glass-border-subtle) !important;
+    color: var(--cipher-text-secondary) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.master-tabs .tab-btn:hover {
+    background: var(--glass-bg-secondary) !important;
+    border-color: var(--glass-border-secondary) !important;
+    color: var(--cipher-text-primary) !important;
+}
+
+.master-tabs .tab-btn.active {
+    background: var(--emerald-gradient-glass) !important;
+    color: var(--cipher-text-accent) !important;
+    border-color: var(--glass-border-primary) !important;
+    box-shadow: 0 2px 8px var(--glass-shadow-accent) !important;
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+@media (max-width: 768px) {
+    :root {
+        --glass-backdrop-blur: 16px;
+        --glass-backdrop-blur-heavy: 20px;
+        --glass-backdrop-blur-light: 8px;
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY AND PERFORMANCE
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+    .glass-panel,
+    .cipher-glass,
+    .workflow-btn--primary,
+    .workflow-btn--secondary {
+        transition: none !important;
+    }
+}
+
+@media (prefers-contrast: high) {
+    :root {
+        --glass-bg-primary: rgba(255, 255, 255, 0.9);
+        --glass-bg-secondary: rgba(255, 255, 255, 0.8);
+        --glass-border-primary: var(--cipher-accent);
+        --glass-border-secondary: var(--cipher-accent-dark);
+    }
+}

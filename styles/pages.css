@@ -1,0 +1,33 @@
+/**
+ * Pages CSS - Central Import File
+ * Imports all page-specific stylesheets for organized development
+ */
+
+/* Universal Base Styles */
+@import url('universal-system.css');
+
+/* MASTER EMERALD GLASSMORPHISM - Override all color inconsistencies */
+@import url('master-glassmorphism-emerald.css');
+
+/* Master Interface Shell */
+@import url('master-tab-interface.css');
+
+/* Theme Systems */
+@import url('glassmorphism-themes.css');
+@import url('modal-system.css');
+
+/* Page-Specific Styles */
+@import url('dashboard.css');
+@import url('firms.css');
+@import url('jobs.css');
+@import url('total-loss.css');
+
+/* Widget Styles */
+@import url('billing-calendar.css');
+@import url('route-optimizer.css');
+@import url('mileage-calculator.css');
+@import url('analytics.css');
+@import url('help.css');
+
+/* Legacy Imports (to be organized) */
+@import url('billing-dashboard.css');

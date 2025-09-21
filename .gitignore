@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Environment Variables (CRITICAL - NEVER COMMIT)
+.env
+.env.local
+.env.production
+config/secrets.js
+
+# API Keys and Secrets (CRITICAL - NEVER COMMIT)
+**/api-keys.*
+**/secrets.*
+**/credentials.*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Build outputs
+dist/
+build/
+*.min.js
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+
+# Claude Code specific
+.claude/
+
+# SECURITY REMINDER: 
+# If you accidentally commit secrets, you must:
+# 1. Rotate all exposed credentials immediately
+# 2. Remove from git history: git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch .env' --prune-empty --tag-name-filter cat -- --all
+# 3. Force push: git push origin --force --all

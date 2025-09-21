@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Dynamic BCIF Parser</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        .test-btn { padding: 10px 20px; margin: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .test-btn:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow: auto; }
+        .upload-area { 
+            border: 2px dashed #ccc; 
+            padding: 20px; 
+            text-align: center; 
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .upload-area.dragover { border-color: #007bff; background: #f0f8ff; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Dynamic BCIF Parser Test</h1>
+    <p>Testing the new Dynamic BCIF Populator with actual CCC PDF files.</p>
+    
+    <div id="results"></div>
+    
+    <h3>Upload CCC PDF Estimate</h3>
+    <div class="upload-area" id="uploadArea">
+        <p>Drag & drop a CCC PDF here or <button class="test-btn" onclick="document.getElementById('fileInput').click()">Browse Files</button></p>
+        <input type="file" id="fileInput" accept=".pdf" style="display: none;">
+    </div>
+    
+    <button class="test-btn" onclick="testWithSampleData()">Test with Sample CCC Data</button>
+    <button class="test-btn" onclick="clearResults()">Clear Results</button>
+    
+    <!-- PDF.js for text extraction -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    
+    <!-- Our services -->
+    <script src="scripts/services/dynamic-bcif-populator.js"></script>
+    <script src="scripts/services/google-docs-service.js"></script>
+    
+    <script>
+        let googleDocsService;
+        let results = document.getElementById('results');
+        
+        async function initServices() {
+            addResult('info', '🔧 Initializing services...');
+            
+            try {
+                googleDocsService = new GoogleDocsService();
+                await googleDocsService.init();
+                addResult('success', '✅ Services initialized successfully');
+            } catch (error) {
+                addResult('error', `❌ Service initialization failed: ${error.message}`);
+            }
+        }
+        
+        function addResult(type, message) {
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.innerHTML = message;
+            results.appendChild(div);
+            results.scrollTop = results.scrollHeight;
+        }
+        
+        // File upload handling
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+        
+        async function handleFile(file) {
+            if (!file.type.includes('pdf')) {
+                addResult('error', '❌ Please select a PDF file');
+                return;
+            }
+            
+            addResult('info', `📄 Processing file: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+            
+            try {
+                const extractedData = await googleDocsService.extractDataFromPDF(file);
+                
+                addResult('success', `✅ File processed successfully!`);
+                addResult('info', `📊 Parsing method: ${extractedData.parsingMethod || 'fallback'}`);
+                
+                if (extractedData.fieldsExtracted) {
+                    addResult('info', `📋 Fields extracted: ${extractedData.fieldsExtracted}`);
+                }
+                if (extractedData.equipmentDetected) {
+                    addResult('info', `🔧 Equipment detected: ${extractedData.equipmentDetected}`);
+                }
+                
+                // Display key extracted data
+                const keyData = {
+                    'Claim Number': extractedData.claimNumber,
+                    'Vehicle': `${extractedData.year} ${extractedData.make} ${extractedData.model}`,
+                    'VIN': extractedData.vin,
+                    'Owner': `${extractedData.ownerFirstName} ${extractedData.ownerLastName}`,
+                    'Loss Date': extractedData.lossDate,
+                    'Adjuster': extractedData.adjusterName
+                };
+                
+                let dataDisplay = '<strong>Key Extracted Data:</strong><br>';
+                Object.entries(keyData).forEach(([key, value]) => {
+                    dataDisplay += `${key}: ${value || 'Not found'}<br>`;
+                });
+                
+                addResult('info', dataDisplay);
+                
+                if (extractedData.dynamicEquipment && extractedData.dynamicEquipment.length > 0) {
+                    addResult('success', `🎯 Equipment codes found: ${extractedData.dynamicEquipment.join(', ')}`);
+                }
+                
+            } catch (error) {
+                addResult('error', `❌ Error processing file: ${error.message}`);
+                console.error('File processing error:', error);
+            }
+        }
+        
+        function testWithSampleData() {
+            addResult('info', '🔄 Testing with sample CCC data...');
+            
+            const sampleCCCText = `
+            Claim #: 75843210_3
+            Date of Loss: 08/15/2024
+            Insured: JOL JOHNSON
+            Owner: JOL JOHNSON
+            VIN: JTJBARBZ5R2012345
+            2024 LEXUS TX350 AWD Premium
+            Mileage: 15,250
+            Power Steering
+            Power Brakes
+            Power Windows
+            Power Locks
+            Air Conditioning
+            Cruise Control
+            Leather Seats
+            Anti-Lock Brakes (4)
+            Navigation System
+            Alloy Wheels
+            `;
+            
+            if (googleDocsService.dynamicParser) {
+                const result = googleDocsService.dynamicParser.processCCCEstimate(sampleCCCText);
+                
+                addResult('success', '✅ Sample data processed successfully!');
+                addResult('info', `📊 Summary: ${JSON.stringify(result.summary, null, 2)}`);
+                
+                const keyFields = ['Claim Number', 'Year', 'Make', 'Model', 'VIN', 'Owner\'s Name'];
+                keyFields.forEach(field => {
+                    if (result.bcifData[field]) {
+                        addResult('success', `✅ ${field}: ${result.bcifData[field]}`);
+                    }
+                });
+                
+                const equipment = Object.keys(result.bcifData).filter(key => result.bcifData[key] === true);
+                if (equipment.length > 0) {
+                    addResult('success', `🔧 Equipment detected: ${equipment.join(', ')}`);
+                }
+            } else {
+                addResult('error', '❌ Dynamic parser not available');
+            }
+        }
+        
+        function clearResults() {
+            results.innerHTML = '';
+        }
+        
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', initServices);
+    </script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Flow Test - Claim Cipher</title>
+    
+    <!-- All Page Styles -->
+    <link rel="stylesheet" href="styles/pages.css">
+    
+    <style>
+        .test-container {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-backdrop-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px var(--glass-shadow);
+        }
+        
+        .color-scheme-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .scheme-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--glass-bg);
+            color: var(--cipher-text-primary);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .scheme-btn:hover {
+            background: var(--glass-accent);
+            color: #000;
+        }
+        
+        .scheme-btn.active {
+            background: var(--glass-accent);
+            color: #000;
+        }
+        
+        .page-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .page-link {
+            display: block;
+            padding: 16px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--cipher-text-primary);
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .page-link:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px var(--glass-shadow);
+            border-color: var(--glass-accent);
+            text-decoration: none;
+            color: var(--cipher-text-primary);
+        }
+        
+        .variable-display {
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+            white-space: pre-line;
+            font-size: 12px;
+            color: var(--cipher-text-secondary);
+        }
+    </style>
+</head>
+<body class="test-interface" data-page="test">
+    <div class="test-container">
+        <h1 style="color: var(--cipher-text-primary); text-align: center; margin-bottom: 40px;">
+            🎤 Complete Flow Test - Color Schemes & Pages
+        </h1>
+        
+        <!-- Color Scheme Controls -->
+        <div class="test-section">
+            <h3 style="color: var(--cipher-text-primary); margin-top: 0;">Color Scheme Test</h3>
+            <p style="color: var(--cipher-text-secondary);">Test dynamic color scheme changes across all pages</p>
+            
+            <div class="color-scheme-controls">
+                <button class="scheme-btn active" onclick="changeScheme('classic')">Classic Gold</button>
+                <button class="scheme-btn" onclick="changeScheme('emerald')">Emerald</button>
+                <button class="scheme-btn" onclick="changeScheme('platinum')">Platinum</button>
+                <button class="scheme-btn" onclick="changeScheme('crimson')">Crimson</button>
+            </div>
+            
+            <div class="variable-display" id="variableDisplay">
+                Current Variables:
+                --cipher-accent: var(--cipher-accent)
+                --glass-border: var(--glass-border)
+                --glass-shadow: var(--glass-shadow)
+            </div>
+        </div>
+        
+        <!-- Page Navigation Test -->
+        <div class="test-section">
+            <h3 style="color: var(--cipher-text-primary); margin-top: 0;">Page Navigation Test</h3>
+            <p style="color: var(--cipher-text-secondary);">Navigate between pages to test color persistence and unique visual identities</p>
+            
+            <div class="page-links">
+                <a href="cipher-begins.html" class="page-link">
+                    <div style="font-size: 24px; margin-bottom: 8px;">🎤</div>
+                    <strong>Onboarding</strong><br>
+                    <small>cipher-begins.html</small>
+                </a>
+                
+                <a href="dashboard.html" class="page-link">
+                    <div style="font-size: 24px; margin-bottom: 8px;">🏠</div>
+                    <strong>Dashboard</strong><br>
+                    <small>dashboard.html</small>
+                </a>
+                
+                <a href="firms.html" class="page-link">
+                    <div style="font-size: 24px; margin-bottom: 8px;">🏢</div>
+                    <strong>Firms</strong><br>
+                    <small>firms.html</small>
+                </a>
+                
+                <a href="jobs.html" class="page-link">
+                    <div style="font-size: 24px; margin-bottom: 8px;">💼</div>
+                    <strong>Jobs</strong><br>
+                    <small>jobs.html</small>
+                </a>
+                
+                <a href="total-loss.html" class="page-link">
+                    <div style="font-size: 24px; margin-bottom: 8px;">📋</div>
+                    <strong>Total Loss</strong><br>
+                    <small>total-loss.html</small>
+                </a>
+                
+                <a href="analytics.html" class="page-link">
+                    <div style="font-size: 24px; margin-bottom: 8px;">📊</div>
+                    <strong>Analytics</strong><br>
+                    <small>analytics.html</small>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Component Test -->
+        <div class="test-section">
+            <h3 style="color: var(--cipher-text-primary); margin-top: 0;">Component Test</h3>
+            <p style="color: var(--cipher-text-secondary);">Test common components with current color scheme</p>
+            
+            <div style="display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap;">
+                <button class="action-btn primary">Primary Action</button>
+                <button class="action-btn secondary">Secondary Action</button>
+                <button class="action-btn tertiary">Tertiary Action</button>
+            </div>
+            
+            <div class="loading-placeholder" style="margin-top: 20px; min-height: auto; padding: 20px;">
+                <div class="spinner" style="margin-bottom: 8px;"></div>
+                <p>Loading component test...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="scripts/shared/color-scheme-manager.js"></script>
+    
+    <script>
+        function changeScheme(scheme) {
+            // Update active button
+            document.querySelectorAll('.scheme-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Change color scheme
+            if (window.colorSchemeManager) {
+                window.colorSchemeManager.setColorScheme(scheme);
+            }
+            
+            // Update variable display
+            setTimeout(updateVariableDisplay, 100);
+            
+            console.log('🎨 Changed scheme to:', scheme);
+        }
+        
+        function updateVariableDisplay() {
+            const display = document.getElementById('variableDisplay');
+            const computedStyle = getComputedStyle(document.documentElement);
+            
+            display.textContent = `Current Variables:
+--cipher-accent: ${computedStyle.getPropertyValue('--cipher-accent')}
+--glass-border: ${computedStyle.getPropertyValue('--glass-border')}
+--glass-shadow: ${computedStyle.getPropertyValue('--glass-shadow')}
+--glass-bg: ${computedStyle.getPropertyValue('--glass-bg')}
+
+Current scheme: ${document.body.getAttribute('data-color-scheme')}`;
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(updateVariableDisplay, 500);
+        });
+    </script>
+</body>
+</html>

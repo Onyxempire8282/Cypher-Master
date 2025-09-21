@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glassmorphism Theme Test</title>
+    
+    <!-- Universal System -->
+    <link rel="stylesheet" href="styles/universal-system.css">
+    
+    <!-- Glassmorphism Themes -->
+    <link rel="stylesheet" href="styles/glassmorphism-themes.css">
+    
+    <!-- Billing Dashboard for Testing -->
+    <link rel="stylesheet" href="styles/billing-dashboard.css">
+    
+    <style>
+        body {
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            min-height: 100vh;
+        }
+        
+        .scheme-selector {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .scheme-btn {
+            margin: 0 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .scheme-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .scheme-btn.active {
+            background: var(--glass-accent);
+            color: black;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body data-color-scheme="classic">
+    <div class="test-container">
+        <h1>Glassmorphism Color Scheme Test</h1>
+        
+        <div class="scheme-selector">
+            <button class="scheme-btn active" onclick="setScheme('classic')">Classic Gold</button>
+            <button class="scheme-btn" onclick="setScheme('emerald')">Emerald</button>
+            <button class="scheme-btn" onclick="setScheme('platinum')">Platinum</button>
+            <button class="scheme-btn" onclick="setScheme('crimson')">Crimson</button>
+        </div>
+        
+        <!-- Test Earnings Summary Widget -->
+        <div class="earnings-summary-widget">
+            <div class="summary-header">
+                <div class="header-main">
+                    <span class="header-icon">💰</span>
+                    <div class="header-title">
+                        <h4>Today's Earnings</h4>
+                        <p class="header-subtitle">Active jobs in progress</p>
+                    </div>
+                </div>
+                <div class="header-summary">
+                    <div class="earnings-display">
+                        <span class="earnings-amount">$2,450.00</span>
+                        <span class="earnings-jobs">3 jobs</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="card-header">
+                        <span class="card-icon">📋</span>
+                        <span class="card-label">Completed</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-amount">$1,200</div>
+                        <div class="card-details">2 jobs today</div>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-header">
+                        <span class="card-icon">⏳</span>
+                        <span class="card-label">In Progress</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-amount">$1,250</div>
+                        <div class="card-details">1 job active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Test Next Steps Widget -->
+        <div class="next-steps-container">
+            <div class="next-steps-header">
+                <span class="step-icon">🎯</span>
+                <div>
+                    <h3>Next Steps</h3>
+                    <p class="next-steps-subtitle">Complete your setup</p>
+                </div>
+            </div>
+            
+            <div class="setup-options">
+                <div class="option-card recommended">
+                    <div class="option-header">
+                        <h4>Configure Billing Firms</h4>
+                    </div>
+                    <p>Set up your billing rates and firm preferences to start earning.</p>
+                    <button class="setup-btn primary">Set Up Firms</button>
+                </div>
+                
+                <div class="option-card">
+                    <div class="option-header">
+                        <h4>Import Your First Job</h4>
+                    </div>
+                    <p>Add your first claim to see the billing system in action.</p>
+                    <button class="setup-btn primary">Import Job</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function setScheme(scheme) {
+            // Update body attribute
+            document.body.setAttribute('data-color-scheme', scheme);
+            
+            // Update active button
+            document.querySelectorAll('.scheme-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            console.log('🎨 Switched to scheme:', scheme);
+        }
+    </script>
+</body>
+</html>

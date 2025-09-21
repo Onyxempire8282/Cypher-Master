@@ -1,0 +1,300 @@
+/**
+ * Analytics Page Styling
+ */
+
+/* Analytics Page Unique Visual Identity */
+body[data-page="analytics"] {
+    background: 
+        conic-gradient(from 0deg at 20% 30%, var(--cipher-bg-primary) 0deg, #0f172a 90deg, var(--cipher-bg-secondary) 180deg, #1e293b 270deg, var(--cipher-bg-primary) 360deg),
+        linear-gradient(135deg, var(--cipher-bg-primary) 0%, var(--cipher-bg-secondary) 100%);
+}
+
+body[data-page="analytics"]::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 20%, var(--cipher-accent) 1px, transparent 1px),
+        radial-gradient(circle at 40% 60%, var(--cipher-accent) 1px, transparent 1px),
+        radial-gradient(circle at 80% 40%, var(--cipher-accent) 1px, transparent 1px);
+    background-size: 60px 60px, 80px 80px, 100px 100px;
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.analytics-container {
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    position: relative;
+}
+
+.daily-tally-container,
+.billing-analytics-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-backdrop-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 16px var(--glass-shadow);
+}
+
+@media (max-width: 768px) {
+    .analytics-container {
+        padding: 16px;
+    }
+}
+
+/* Firms Accordion Styling */
+.firms-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.accordion-item {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-backdrop-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-item:hover {
+    border-color: var(--cipher-accent);
+    box-shadow: 0 4px 20px rgba(var(--cipher-accent-rgb), 0.15);
+    transform: translateY(-1px);
+}
+
+.accordion-item.expanded {
+    box-shadow: 0 8px 32px rgba(var(--cipher-accent-rgb), 0.2);
+}
+
+.accordion-header {
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    user-select: none;
+}
+
+.accordion-header:hover {
+    background: rgba(var(--cipher-accent-rgb), 0.08);
+}
+
+.accordion-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.firm-summary {
+    flex: 1;
+    min-width: 0;
+}
+
+.firm-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 4px 0;
+}
+
+.firm-quick-info {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.payment-schedule,
+.file-rate {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: rgba(var(--cipher-accent-rgb), 0.1);
+}
+
+.file-rate {
+    font-weight: 600;
+    color: var(--cipher-accent);
+    background: rgba(var(--cipher-accent-rgb), 0.15);
+}
+
+.accordion-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 16px;
+}
+
+.delete-firm-btn,
+.edit-firm-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.delete-firm-btn:hover {
+    background: rgba(239, 68, 68, 0.1);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.edit-firm-btn:hover {
+    background: rgba(var(--cipher-accent-rgb), 0.1);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.accordion-chevron {
+    margin-left: 8px;
+}
+
+.accordion-chevron span {
+    display: inline-block;
+    font-size: 12px;
+    color: var(--text-secondary);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.config-details {
+    padding: 0 20px 20px 20px;
+    border-top: 1px solid var(--glass-border);
+}
+
+.config-section {
+    margin-bottom: 20px;
+}
+
+.config-section:last-child {
+    margin-bottom: 0;
+}
+
+.config-section h6 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.config-rates,
+.schedule-info,
+.contact-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.rate-item,
+.schedule-item,
+.contact-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(var(--cipher-accent-rgb), 0.05);
+    border-radius: 6px;
+    border: 1px solid rgba(var(--cipher-accent-rgb), 0.1);
+}
+
+.rate-label,
+.schedule-label,
+.contact-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.rate-value,
+.schedule-value,
+.contact-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .accordion-header {
+        padding: 14px 16px;
+    }
+    
+    .firm-quick-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .accordion-actions {
+        margin-left: 8px;
+        gap: 4px;
+    }
+    
+    .config-details {
+        padding: 0 16px 16px 16px;
+    }
+    
+    .config-rates,
+    .schedule-info,
+    .contact-info {
+        grid-template-columns: 1fr;
+    }
+    
+    .accordion-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .accordion-actions {
+        align-self: flex-end;
+        margin-left: 0;
+    }
+}
+
+/* Animation Keyframes */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}

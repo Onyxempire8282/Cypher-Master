@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Cipher Begins - Claim Cipher</title>
+    
+    <!-- Universal System -->
+    <link rel="stylesheet" href="styles/universal-system.css">
+    
+    <!-- Cipher Begins Styling -->
+    <link rel="stylesheet" href="styles/cipher-begins.css">
+    
+    <!-- Modal System for Post-Onboarding -->
+    <link rel="stylesheet" href="styles/modal-system.css">
+    
+    <!-- Glassmorphism Themes -->
+    <link rel="stylesheet" href="styles/glassmorphism-themes.css">
+</head>
+<body class="cipher-begins">
+    
+    <!-- Cipher Background Canvas -->
+    <div class="cipher-canvas" id="cipherCanvas">
+        <!-- Dynamic cipher visualization builds here -->
+        <div class="cipher-environment" id="cipherEnvironment">
+            <!-- Environment layers -->
+            <div class="environment-layer sky" id="skyLayer"></div>
+            <div class="environment-layer landscape" id="landscapeLayer"></div>
+            <div class="environment-layer network" id="networkLayer"></div>
+        </div>
+        
+        <!-- Main Cipher Circle -->
+        <div class="cipher-circle" id="cipherCircle">
+            <!-- User's avatar/figure -->
+            <div class="cipher-figure main-figure" id="mainFigure">
+                <div class="figure-glow"></div>
+                <div class="figure-core"></div>
+            </div>
+            
+            <!-- Connected figures (firms/network) -->
+            <div class="connected-figures" id="connectedFigures">
+                <!-- Populated dynamically -->
+            </div>
+            
+            <!-- Cipher energy flows -->
+            <div class="energy-flows" id="energyFlows">
+                <!-- Animated connections -->
+            </div>
+        </div>
+        
+        <!-- Floating particles -->
+        <div class="cipher-particles" id="cipherParticles">
+            <!-- Generated dynamically -->
+        </div>
+    </div>
+
+    <!-- Main Interface Overlay -->
+    <div class="cipher-interface">
+        
+        <!-- Welcome Screen -->
+        <div class="cipher-screen active" id="welcomeScreen">
+            <div class="cipher-content">
+                <div class="cipher-logo">
+                    <div class="logo-text">
+                        <h1>The Cypher Begins</h1>
+                        <p>Welcome to the professional adjusters' community</p>
+                    </div>
+                </div>
+                
+                <div class="welcome-flow">
+                    <div class="intro-text">
+                        <h2>Join the Circle</h2>
+                        <p>Where experience meets opportunity. Where professionals sharpen skills and build networks. Your journey starts here.</p>
+                    </div>
+                    
+                    <!-- Primary Call to Action -->
+                    <div class="primary-cta">
+                        <button class="cipher-btn cipher-btn--primary cipher-btn--hero" 
+                                data-action="begin-journey"
+                                aria-label="Begin Your Cypher Journey - Complete setup in 6 easy steps">
+                            Begin Your Cypher Journey
+                        </button>
+                        <p class="cta-subtitle" aria-describedby="journey-description">Complete setup in 6 easy steps</p>
+                    </div>
+                    
+                    <!-- Returning User Option -->
+                    <div class="returning-user">
+                        <p class="returning-label">Already have a cypher?</p>
+                        <button class="cipher-btn cipher-btn--secondary" 
+                                data-action="show-login">
+                            Continue Your Cypher
+                        </button>
+                    </div>
+                    
+                    <!-- Skill Preview (Non-interactive, for context only) -->
+                    <div class="skill-preview">
+                        <p class="preview-label">For all experience levels</p>
+                        <div class="skill-indicators">
+                            <div class="skill-badge">
+                                <span class="skill-icon">🌱</span>
+                                <span class="skill-label">Beginner</span>
+                            </div>
+                            <div class="skill-badge">
+                                <span class="skill-icon">⚡</span>
+                                <span class="skill-label">Seasoned</span>
+                            </div>
+                            <div class="skill-badge">
+                                <span class="skill-icon">👑</span>
+                                <span class="skill-label">Master</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Journey Steps -->
+        <div class="cipher-screen" id="journeyScreen">
+            <!-- Progress Indicator (moved to top of screen) -->
+            <div class="journey-progress">
+                <div class="progress-line" id="progressLine"></div>
+                <div class="progress-steps">
+                    <div class="progress-step active" data-step="1">
+                        <div class="step-icon">🎤</div>
+                        <div class="step-label">Status</div>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <div class="step-icon">👤</div>
+                        <div class="step-label">Identity</div>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <div class="step-icon">🗺️</div>
+                        <div class="step-label">Territory</div>
+                    </div>
+                    <div class="progress-step" data-step="4">
+                        <div class="step-icon">🚗</div>
+                        <div class="step-label">Travel</div>
+                    </div>
+                    <div class="progress-step" data-step="5">
+                        <div class="step-icon">🏢</div>
+                        <div class="step-label">Network</div>
+                    </div>
+                    <div class="progress-step" data-step="6">
+                        <div class="step-icon">💰</div>
+                        <div class="step-label">Rates</div>
+                    </div>
+                    <div class="progress-step" data-step="7">
+                        <div class="step-icon">📱</div>
+                        <div class="step-label">Connect</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cipher-content">
+                <!-- Dynamic Question Container -->
+            <div class="journey-question" id="journeyQuestion">
+                <!-- Questions loaded dynamically -->
+            </div>
+
+            <!-- Navigation -->
+            <div class="journey-navigation">
+                <button class="cipher-btn cipher-btn--secondary" id="prevBtn" style="display: none;">
+                    ← Previous
+                </button>
+                <button class="cipher-btn cipher-btn--primary" id="nextBtn">
+                    Continue →
+                </button>
+            </div>
+            </div>
+        </div>
+
+        <!-- Blackout Transformation -->
+        <div class="cipher-screen" id="transformationScreen">
+            <div class="transformation-overlay">
+                <div class="undecipherable-text" id="undecipherableText">
+                    <!-- Animated undecipherable characters -->
+                </div>
+                <div class="final-message" id="finalMessage">
+                    <!-- Final readable text -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Color Scheme Selection -->
+        <div class="cipher-screen" id="colorSchemeScreen">
+            <div class="cipher-content">
+                <div class="scheme-header">
+                    <h2>Choose Your Cypher Colors</h2>
+                    <p>Select a color scheme that reflects your professional style</p>
+                </div>
+                
+                <div class="color-schemes" id="colorSchemes">
+                    <div class="scheme-option" data-scheme="classic">
+                        <div class="scheme-preview classic-preview"></div>
+                        <h4>Classic Gold</h4>
+                        <p>Traditional elegance</p>
+                    </div>
+                    <div class="scheme-option" data-scheme="emerald">
+                        <div class="scheme-preview emerald-preview"></div>
+                        <h4>Emerald Professional</h4>
+                        <p>Modern sophistication</p>
+                    </div>
+                    <div class="scheme-option" data-scheme="platinum">
+                        <div class="scheme-preview platinum-preview"></div>
+                        <h4>Platinum Modern</h4>
+                        <p>Sleek minimalism</p>
+                    </div>
+                    <div class="scheme-option" data-scheme="crimson">
+                        <div class="scheme-preview crimson-preview"></div>
+                        <h4>Crimson Power</h4>
+                        <p>Bold confidence</p>
+                    </div>
+                </div>
+                
+                <button class="cipher-btn cipher-btn--primary" id="confirmScheme">
+                    Enter Your Cypher Dashboard
+                </button>
+            </div>
+        </div>
+
+        <!-- Legacy Finale (kept for compatibility) -->
+        <div class="cipher-screen" id="finaleScreen">
+            <div class="finale-content">
+                <div class="finale-message">
+                    <h1>Your Cypher is Complete</h1>
+                    <p>Welcome to your professional network</p>
+                </div>
+                
+                <div class="cipher-summary" id="cipherSummary">
+                    <!-- User's cipher details -->
+                </div>
+                
+                <div class="finale-animation" id="finaleAnimation">
+                    <!-- Cinematic reveal animation -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Integration -->
+        <div class="cipher-screen" id="loginScreen">
+            <div class="cipher-content">
+                <div class="login-header">
+                    <h2>Welcome Back to Your Cypher</h2>
+                    <p>Continue your professional journey</p>
+                </div>
+                
+                <div class="login-form glass-panel">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" class="cipher-input" placeholder="Enter your email" value="test@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" class="cipher-input" placeholder="Enter your password" value="test123">
+                    </div>
+                    
+                    <button class="cipher-btn cipher-btn--primary" data-action="handle-login">
+                        Enter Your Cypher
+                    </button>
+                    
+                    <div class="login-options">
+                        <a href="#" data-action="back-to-welcome">New to the cypher?</a>
+                        <a href="#">Forgot password?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Audio Context (Optional) -->
+    <audio id="cipherAudio" loop style="display: none;">
+        <!-- Subtle ambient audio for the experience -->
+    </audio>
+
+    <!-- Supabase Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Development Configuration (update with your Supabase credentials) -->
+    <script src="config/dev-config.js"></script>
+    
+    <!-- Authentication and Database -->
+    <script src="config/supabase-config.js"></script>
+    <script src="scripts/auth-service.js"></script>
+    
+    <!-- Scripts -->
+    <script src="scripts/cipher-begins-controller.js"></script>
+    <script src="scripts/cipher-visualization.js"></script>
+    <script src="scripts/cipher-particles.js"></script>
+    <script src="scripts/cipher-begins-events.js"></script>
+    <script src="scripts/cipher-begins-init.js"></script>
+
+</body>
+</html>

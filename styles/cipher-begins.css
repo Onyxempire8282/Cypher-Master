@@ -1,0 +1,2001 @@
+/* =================================
+   THE CIPHER BEGINS - CINEMATIC EXPERIENCE
+   ================================= */
+
+.cipher-begins {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, 
+        #0a0a0a 0%, 
+        #1a1a2e 25%, 
+        #16213e 50%, 
+        #0f3460 75%, 
+        #0a0a0a 100%);
+    font-family: var(--cipher-font-family);
+    overflow: hidden;
+    position: relative;
+}
+
+/* =================================
+   CIPHER CANVAS - SIDE VISUALIZATION
+   ================================= */
+
+.cipher-canvas {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 50vw;
+    height: 100vh;
+    z-index: 1;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.cipher-canvas.transition-mode {
+    left: 0;
+    right: 0;
+    width: 100vw;
+    z-index: 100;
+}
+
+/* Environment Layers */
+.cipher-environment {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.environment-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: all 2s cubic-bezier(0.23, 1, 0.32, 1);
+    opacity: 0;
+}
+
+.environment-layer.active {
+    opacity: 1;
+}
+
+.sky {
+    background: radial-gradient(ellipse at center, 
+        rgba(59, 130, 246, 0.1) 0%, 
+        rgba(16, 33, 62, 0.3) 50%, 
+        rgba(10, 10, 10, 0.8) 100%);
+}
+
+.landscape {
+    background: linear-gradient(to bottom, 
+        transparent 60%, 
+        rgba(255, 215, 0, 0.05) 70%, 
+        rgba(255, 215, 0, 0.1) 100%);
+}
+
+.landscape.urban {
+    background: linear-gradient(to bottom, 
+        transparent 50%, 
+        rgba(100, 100, 100, 0.1) 70%, 
+        rgba(200, 200, 200, 0.1) 100%);
+}
+
+.landscape.rural {
+    background: linear-gradient(to bottom, 
+        transparent 60%, 
+        rgba(34, 197, 94, 0.05) 75%, 
+        rgba(34, 197, 94, 0.1) 100%);
+}
+
+/* Main Cipher Circle */
+.cipher-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    background: radial-gradient(circle, 
+        rgba(255, 215, 0, 0.2) 0%, 
+        rgba(255, 215, 0, 0.1) 50%, 
+        rgba(255, 215, 0, 0.05) 100%);
+    backdrop-filter: none;
+    transition: all 3s cubic-bezier(0.23, 1, 0.32, 1);
+    opacity: 0;
+    scale: 0.5;
+}
+
+.cipher-circle.active {
+    opacity: 1;
+    scale: 1;
+    border-color: rgba(255, 215, 0, 0.6);
+    box-shadow: 
+        0 0 50px rgba(255, 215, 0, 0.3),
+        inset 0 0 50px rgba(255, 215, 0, 0.1);
+}
+
+.cipher-circle.expanded {
+    width: 500px;
+    height: 500px;
+    border-color: rgba(255, 215, 0, 0.4);
+    box-shadow: 
+        0 0 30px rgba(255, 215, 0, 0.2),
+        inset 0 0 30px rgba(255, 215, 0, 0.05);
+}
+
+/* Main Figure (User) */
+.cipher-figure {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    transition: all 2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.main-figure {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    scale: 0;
+}
+
+.main-figure.active {
+    opacity: 1;
+    scale: 1;
+}
+
+.figure-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle, 
+        rgba(255, 215, 0, 0.4) 0%, 
+        rgba(255, 215, 0, 0.2) 50%, 
+        transparent 100%);
+    animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.figure-core {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, 
+        rgba(255, 215, 0, 0.8) 0%, 
+        rgba(59, 130, 246, 0.8) 100%);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+@keyframes pulseGlow {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+/* Connected Figures */
+.connected-figures {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.connected-figure {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.6) 0%, 
+        rgba(16, 33, 62, 0.8) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    scale: 0;
+    transition: all 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.connected-figure.active {
+    opacity: 1;
+    scale: 1;
+}
+
+/* Energy Flows */
+.energy-flows {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.energy-line {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 215, 0, 0.8) 50%, 
+        transparent 100%);
+    transform-origin: left center;
+    opacity: 0;
+    animation: energyFlow 2s ease-in-out infinite;
+}
+
+@keyframes energyFlow {
+    0% { opacity: 0; width: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; width: 100%; }
+}
+
+/* Floating Particles */
+.cipher-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255, 215, 0, 0.6);
+    border-radius: 50%;
+    animation: floatParticle 8s linear infinite;
+}
+
+@keyframes floatParticle {
+    0% {
+        transform: translateY(100vh) translateX(0) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20vh) translateX(100px) scale(0);
+        opacity: 0;
+    }
+}
+
+/* =================================
+   CIPHER INTERFACE - OVERLAY CONTENT
+   ================================= */
+
+.cipher-interface {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: var(--cipher-space-lg);
+    padding-left: 5vw;
+    padding-right: 50vw; /* Leave room for cipher visualization */
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.cipher-interface.transition-mode {
+    justify-content: center;
+    padding-left: var(--cipher-space-lg);
+    padding-right: var(--cipher-space-lg);
+}
+
+/* Screen Management - Consistent sizing and positioning */
+.cipher-screen {
+    display: none;
+    width: 100%;
+    max-width: 650px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+}
+
+/* Transformation Screen - Full screen blackout */
+.cipher-screen#transformationScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    z-index: 2000;
+    background: #000;
+    transform: none;
+}
+
+.cipher-screen#transformationScreen.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Journey Screen - Full height layout */
+.cipher-screen#journeyScreen {
+    display: none;
+    flex-direction: column;
+    height: 100vh;
+    max-width: none;
+    width: 100%;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 50vw; /* Match cipher canvas positioning */
+    background: transparent;
+}
+
+.cipher-screen#journeyScreen.active {
+    display: flex;
+}
+
+.cipher-screen#journeyScreen .cipher-content {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--cipher-radius-md);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    padding: var(--cipher-space-lg);
+    margin: 10vh 5vw;
+    max-width: 600px;
+    height: 80vh;
+    max-height: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    align-self: flex-start;
+}
+
+.cipher-screen.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cipher-screen#journeyScreen.active {
+    display: flex;
+}
+
+.cipher-screen.transitioning-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.cipher-screen.transitioning-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: smoothFadeIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes smoothFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeInScreen {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Cipher Content - Single unified container */
+.cipher-content {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--cipher-radius-md);
+    padding: var(--cipher-space-lg);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    height: 80vh;
+    max-height: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/* Color Scheme Screen - Specific adjustments */
+.cipher-screen#colorSchemeScreen .cipher-content {
+    height: auto;
+    min-height: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    justify-content: flex-start;
+    gap: var(--cipher-space-lg);
+    padding-bottom: var(--cipher-space-xl);
+}
+
+/* Ensure color scheme button is always visible */
+.cipher-screen#colorSchemeScreen #confirmScheme {
+    margin-top: auto;
+    flex-shrink: 0;
+    align-self: center;
+}
+
+/* Logo */
+.cipher-logo {
+    margin-bottom: var(--cipher-space-lg);
+    text-align: center;
+}
+
+.logo-symbol {
+    display: none;
+}
+
+.logo-text h1 {
+    font-size: 2.2rem;
+    color: var(--cipher-gold);
+    margin-bottom: var(--cipher-space-sm);
+    font-weight: var(--cipher-font-weight-bold);
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    text-align: center;
+}
+
+.logo-text p {
+    color: var(--cipher-text-secondary);
+    font-size: 1rem;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+/* Welcome Flow */
+.welcome-flow {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cipher-space-xl);
+    text-align: center;
+}
+
+.intro-text h2 {
+    color: var(--cipher-text-primary);
+    font-size: 1.8rem;
+    margin-bottom: var(--cipher-space-md);
+    font-weight: var(--cipher-font-weight-medium);
+}
+
+.intro-text p {
+    color: var(--cipher-text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Primary CTA Section */
+.primary-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--cipher-space-sm);
+}
+
+.cipher-btn--hero {
+    font-size: 1.1rem;
+    padding: var(--cipher-space-lg) var(--cipher-space-xl);
+    min-width: 280px;
+    box-shadow: 
+        0 8px 32px rgba(255, 215, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.cipher-btn--hero:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 40px rgba(255, 215, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.cta-subtitle {
+    color: var(--cipher-text-muted);
+    font-size: 0.85rem;
+    margin: 0;
+    opacity: 0.8;
+}
+
+/* Returning User Section */
+.returning-user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--cipher-space-sm);
+    padding-top: var(--cipher-space-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.returning-label {
+    color: var(--cipher-text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+    opacity: 0.8;
+}
+
+.cipher-btn--secondary {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--cipher-text-primary);
+    min-width: 200px;
+}
+
+.cipher-btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 215, 0, 0.3);
+}
+
+/* Skill Preview Section */
+.skill-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--cipher-space-sm);
+}
+
+.preview-label {
+    color: var(--cipher-text-muted);
+    font-size: 0.8rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.7;
+}
+
+.skill-indicators {
+    display: flex;
+    justify-content: center;
+    gap: var(--cipher-space-md);
+}
+
+.skill-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--cipher-space-xs);
+    padding: var(--cipher-space-sm);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--cipher-radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    min-width: 80px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.skill-badge:hover {
+    opacity: 0.9;
+}
+
+.skill-icon {
+    font-size: 1rem;
+}
+
+.skill-label {
+    color: var(--cipher-text-secondary);
+    font-size: 0.75rem;
+    font-weight: var(--cipher-font-weight-medium);
+}
+
+/* Legacy Skill Levels (keeping for journey screen) */
+.skill-levels {
+    display: flex;
+    justify-content: center;
+    gap: var(--cipher-space-md);
+    margin-bottom: var(--cipher-space-lg);
+}
+
+.level-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--cipher-space-xs);
+    padding: var(--cipher-space-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--cipher-radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    flex: 1;
+    max-width: 120px;
+    transition: all 0.3s ease;
+}
+
+.level-indicator.clickable {
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.level-indicator.clickable:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 215, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.level-indicator.selected {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: var(--cipher-gold);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.level-icon {
+    font-size: 1.2rem;
+}
+
+.level-name {
+    color: var(--cipher-text-secondary);
+    font-size: 0.8rem;
+    font-weight: var(--cipher-font-weight-medium);
+    line-height: 1.2;
+}
+
+/* =================================
+   JOURNEY PROGRESS
+   ================================= */
+
+/* Journey progress integrated into main container */
+.cipher-screen#journeyScreen .journey-progress {
+    position: relative;
+    flex-shrink: 0;
+    padding: var(--cipher-space-sm) 0;
+    margin-bottom: var(--cipher-space-md);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.progress-line {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    height: 2px;
+    background: rgba(255, 215, 0, 0.3);
+    width: 0%;
+    transition: width 1s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 1;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--cipher-space-xs);
+    opacity: 0.5;
+    transition: all 0.5s ease;
+}
+
+.progress-step.active {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.progress-step.completed {
+    opacity: 1;
+}
+
+.step-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.5s ease;
+}
+
+.progress-step.active .step-icon {
+    background: rgba(255, 215, 0, 0.3);
+    border-color: var(--cipher-gold);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.progress-step.completed .step-icon {
+    background: rgba(34, 197, 94, 0.3);
+    border-color: var(--cipher-success);
+}
+
+.step-label {
+    color: var(--cipher-text-muted);
+    font-size: 0.7rem;
+    font-weight: var(--cipher-font-weight-medium);
+    text-align: center;
+}
+
+.progress-step.active .step-label,
+.progress-step.completed .step-label {
+    color: var(--cipher-text-primary);
+}
+
+/* =================================
+   JOURNEY QUESTIONS
+   ================================= */
+
+/* Journey question integrated into main container */
+.journey-question {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--cipher-space-md) 0;
+}
+
+.question-title {
+    color: var(--cipher-gold);
+    font-size: 1.5rem;
+    font-weight: var(--cipher-font-weight-medium);
+    margin-bottom: var(--cipher-space-md);
+    text-align: center;
+}
+
+.question-subtitle {
+    color: var(--cipher-text-secondary);
+    font-size: 1rem;
+    margin-bottom: var(--cipher-space-lg);
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: var(--cipher-space-md);
+}
+
+.form-group label {
+    display: block;
+    color: var(--cipher-text-primary);
+    font-weight: var(--cipher-font-weight-medium);
+    margin-bottom: var(--cipher-space-sm);
+    font-size: 0.9rem;
+}
+
+.cipher-input {
+    width: 100%;
+    padding: var(--cipher-space-md);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--cipher-radius-md);
+    color: var(--cipher-text-primary);
+    font-size: 1rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.cipher-input:focus {
+    outline: none;
+    border-color: var(--cipher-gold);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.cipher-input::placeholder {
+    color: var(--cipher-text-muted);
+}
+
+/* Choice Grid */
+.choice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--cipher-space-sm);
+}
+
+.choice-option {
+    padding: var(--cipher-space-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--cipher-radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.choice-option:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 215, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.choice-option.selected {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: var(--cipher-gold);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.choice-option h4 {
+    color: var(--cipher-text-primary);
+    margin-bottom: var(--cipher-space-xs);
+    font-size: 0.9rem;
+}
+
+.choice-option p {
+    color: var(--cipher-text-secondary);
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+/* =================================
+   CIPHER CHOICE STYLING (HIP-HOP THEMED)
+   ================================= */
+
+.cipher-choice-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--cipher-space-md);
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 var(--cipher-space-sm);
+}
+
+.cipher-choice-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--cipher-radius-md);
+    padding: var(--cipher-space-md);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cipher-choice-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 215, 0, 0.1) 50%,
+        transparent 100%);
+    transition: left 0.6s ease;
+}
+
+.cipher-choice-card:hover::before {
+    left: 100%;
+}
+
+.cipher-choice-card:hover {
+    border-color: rgba(255, 215, 0, 0.5);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.cipher-choice-card.selected {
+    border-color: var(--cipher-gold);
+    background: rgba(255, 215, 0, 0.05);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.cipher-choice-header {
+    display: flex;
+    align-items: center;
+    gap: var(--cipher-space-md);
+    margin-bottom: var(--cipher-space-md);
+}
+
+.cipher-choice-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+}
+
+.cipher-choice-label {
+    font-size: 1.4rem;
+    font-weight: var(--cipher-font-weight-bold);
+    color: var(--cipher-text-primary);
+}
+
+.cipher-choice-description {
+    font-size: 1rem;
+    color: var(--cipher-text-secondary);
+    font-style: italic;
+    margin-bottom: var(--cipher-space-md);
+    text-align: center;
+}
+
+.cipher-choice-details {
+    font-size: 0.9rem;
+    color: var(--cipher-text-muted);
+    margin-bottom: var(--cipher-space-lg);
+    text-align: center;
+}
+
+.cipher-choice-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cipher-choice-benefits li {
+    display: flex;
+    align-items: center;
+    gap: var(--cipher-space-sm);
+    margin-bottom: var(--cipher-space-xs);
+    font-size: 0.85rem;
+    color: var(--cipher-text-secondary);
+}
+
+.cipher-choice-benefits li::before {
+    content: '✓';
+    color: var(--cipher-gold);
+    font-weight: bold;
+}
+
+/* =================================
+   CIPHER BENEFITS POPUP
+   ================================= */
+
+.cipher-benefits-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.benefits-overlay {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: var(--cipher-radius-lg);
+    padding: var(--cipher-space-xl);
+    max-width: 400px;
+    transform: scale(0.8);
+    opacity: 0;
+    animation: benefitsPopupIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.cipher-benefits-popup.fade-out .benefits-overlay {
+    animation: benefitsPopupOut 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes benefitsPopupIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes benefitsPopupOut {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.8) translateY(-20px);
+    }
+}
+
+.benefits-header {
+    text-align: center;
+    margin-bottom: var(--cipher-space-lg);
+}
+
+.benefits-icon {
+    font-size: 3rem;
+    margin-bottom: var(--cipher-space-md);
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+}
+
+.benefits-header h3 {
+    color: var(--cipher-gold);
+    font-size: 1.5rem;
+    margin-bottom: var(--cipher-space-sm);
+    font-weight: var(--cipher-font-weight-bold);
+}
+
+.benefits-header p {
+    color: var(--cipher-text-secondary);
+    font-size: 1rem;
+    margin: 0;
+    font-style: italic;
+}
+
+.benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cipher-space-sm);
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: var(--cipher-space-sm);
+    padding: var(--cipher-space-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--cipher-radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: benefitItemSlide 0.3s ease forwards;
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.benefit-item:nth-child(1) { animation-delay: 0.2s; }
+.benefit-item:nth-child(2) { animation-delay: 0.4s; }
+.benefit-item:nth-child(3) { animation-delay: 0.6s; }
+.benefit-item:nth-child(4) { animation-delay: 0.8s; }
+
+@keyframes benefitItemSlide {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.benefit-check {
+    color: var(--cipher-gold);
+    font-weight: bold;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.benefit-text {
+    color: var(--cipher-text-primary);
+    font-size: 0.9rem;
+    font-weight: var(--cipher-font-weight-medium);
+}
+
+/* =================================
+   HIP-HOP CIPHER FIGURE STYLING
+   ================================= */
+
+/* Novice Rapper Styling */
+.figure-core.beginner {
+    position: relative;
+}
+
+.figure-core.beginner::before {
+    content: '🎒';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    font-size: 12px;
+}
+
+.figure-core.beginner::after {
+    content: '🧢';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    font-size: 10px;
+    transform: rotate(180deg);
+}
+
+/* Expert Rapper Styling */
+.figure-core.seasoned {
+    position: relative;
+}
+
+.figure-core.seasoned::before {
+    content: '🎤';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
+    animation: micBounce 1.5s ease-in-out infinite;
+}
+
+/* OG Rapper Styling */
+.figure-core.master {
+    position: relative;
+}
+
+.figure-core.master::before {
+    content: '👑';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    animation: crownFloat 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+}
+
+/* Divine aura effect for OG */
+.figure-core.master::after {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    right: -30px;
+    bottom: -30px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        transparent 60%,
+        rgba(147, 51, 234, 0.1) 70%,
+        rgba(255, 215, 0, 0.1) 80%,
+        transparent 90%);
+    animation: divineAura 6s linear infinite;
+    pointer-events: none;
+}
+
+/* =================================
+   HIP-HOP CIPHER ANIMATIONS
+   ================================= */
+
+/* Novice Animations */
+@keyframes backpackBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+}
+
+@keyframes hatTilt {
+    0%, 100% { transform: rotate(180deg); }
+    25% { transform: rotate(185deg); }
+    75% { transform: rotate(175deg); }
+}
+
+@keyframes noteFlip {
+    0%, 90%, 100% { transform: rotateY(0deg); }
+    45% { transform: rotateY(180deg); }
+}
+
+@keyframes learningPulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.05); opacity: 0.6; }
+}
+
+/* Expert Animations */
+@keyframes micBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-3px); }
+}
+
+@keyframes chainSwing {
+    0%, 100% { transform: translateX(-50%) rotate(0deg); }
+    25% { transform: translateX(-50%) rotate(2deg); }
+    75% { transform: translateX(-50%) rotate(-2deg); }
+}
+
+@keyframes spotlightGlow {
+    0%, 100% { opacity: 0.8; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+@keyframes performancePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes performanceEnergy {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.1); opacity: 0.9; }
+}
+
+/* OG/Master Animations */
+@keyframes crownFloat {
+    0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+    25% { transform: translateX(-50%) translateY(-2px) rotate(1deg); }
+    50% { transform: translateX(-50%) translateY(-4px) rotate(0deg); }
+    75% { transform: translateX(-50%) translateY(-2px) rotate(-1deg); }
+}
+
+@keyframes wisdomSparkle {
+    0%, 100% { opacity: 0.4; transform: scale(1) rotate(0deg); }
+    25% { opacity: 0.8; transform: scale(1.2) rotate(90deg); }
+    50% { opacity: 1; transform: scale(1) rotate(180deg); }
+    75% { opacity: 0.6; transform: scale(1.1) rotate(270deg); }
+}
+
+@keyframes discipleReverence {
+    0%, 100% { transform: scale(1) translateY(0); }
+    25% { transform: scale(0.9) translateY(-1px); }
+    50% { transform: scale(1.1) translateY(-2px); }
+    75% { transform: scale(0.95) translateY(-1px); }
+}
+
+@keyframes godAura {
+    0%, 100% {
+        transform: scale(1);
+        filter: brightness(1) saturate(1);
+    }
+    33% {
+        transform: scale(1.02);
+        filter: brightness(1.1) saturate(1.2);
+    }
+    66% {
+        transform: scale(1.01);
+        filter: brightness(1.05) saturate(1.1);
+    }
+}
+
+@keyframes divineAura {
+    0% { transform: rotate(0deg); opacity: 0.6; }
+    100% { transform: rotate(360deg); opacity: 0.6; }
+}
+
+@keyframes divinePresence {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    33% { transform: scale(1.05); opacity: 0.7; }
+    66% { transform: scale(1.02); opacity: 0.5; }
+}
+
+/* =================================
+   CIPHER POSITIONING PREVIEW
+   ================================= */
+
+/* Method to show cipher positioning preview */
+.cipher-positioning-preview {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.position-indicator {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px dashed rgba(255, 215, 0, 0.5);
+    background: rgba(255, 215, 0, 0.1);
+    animation: positionPulse 2s ease-in-out infinite;
+}
+
+.position-indicator.edge {
+    top: 50%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+}
+
+.position-indicator.center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.position-indicator.throne {
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transform: scale(1.2);
+}
+
+@keyframes positionPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+/* =================================
+   CIPHER ACCESSORIES STYLING
+   ================================= */
+
+.cipher-accessory {
+    position: absolute;
+    z-index: 10;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.cipher-accessory.backpack {
+    filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.6));
+}
+
+.cipher-accessory.backwards-hat {
+    filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.6));
+}
+
+.cipher-accessory.notebook {
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
+}
+
+.cipher-accessory.microphone {
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+}
+
+.cipher-accessory.chains {
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
+}
+
+.cipher-accessory.spotlight {
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 1));
+}
+
+.cipher-accessory.crown {
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 1));
+}
+
+.cipher-accessory.wisdom-aura {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+}
+
+/* =================================
+   CIPHER AURA EFFECTS
+   ================================= */
+
+.cipher-aura {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.cipher-aura.learning-glow {
+    animation: learningPulse 3s ease-in-out infinite;
+}
+
+.cipher-aura.performance-energy {
+    animation: performanceEnergy 2s ease-in-out infinite;
+}
+
+.cipher-aura.divine-presence {
+    animation: divinePresence 4s ease-in-out infinite;
+}
+
+/* =================================
+   ORB GROWTH & BIRTHING EFFECTS
+   ================================= */
+
+@keyframes birthingPulse {
+    0%, 100% { 
+        transform: scale(1); 
+        opacity: 0.4; 
+    }
+    50% { 
+        transform: scale(1.05); 
+        opacity: 0.9; 
+    }
+}
+
+@keyframes rippleExpand {
+    0% {
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+    }
+    100% {
+        width: 300%;
+        height: 300%;
+        opacity: 0;
+    }
+}
+
+@keyframes orbVibration {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(1); 
+    }
+    25% { 
+        transform: translate(-50%, -50%) scale(1.01) rotate(0.5deg); 
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.02); 
+    }
+    75% { 
+        transform: translate(-50%, -50%) scale(1.01) rotate(-0.5deg); 
+    }
+}
+
+/* Clean Orb Animations */
+@keyframes gentlePulse {
+    0%, 100% { 
+        transform: scale(1); 
+        opacity: 0.8; 
+    }
+    50% { 
+        transform: scale(1.03); 
+        opacity: 1; 
+    }
+}
+
+@keyframes energyPulse {
+    0%, 100% { 
+        transform: scale(1); 
+        opacity: 0.9; 
+        filter: brightness(1); 
+    }
+    50% { 
+        transform: scale(1.05); 
+        opacity: 1; 
+        filter: brightness(1.2); 
+    }
+}
+
+@keyframes divinePulse {
+    0%, 100% { 
+        transform: scale(1); 
+        opacity: 0.95; 
+        filter: brightness(1) saturate(1); 
+    }
+    33% { 
+        transform: scale(1.04); 
+        opacity: 1; 
+        filter: brightness(1.1) saturate(1.2); 
+    }
+    66% { 
+        transform: scale(1.02); 
+        opacity: 0.98; 
+        filter: brightness(1.05) saturate(1.1); 
+    }
+}
+
+/* Status Indicator Animations */
+@keyframes statusOrbit {
+    0% { 
+        transform: translate(-50%, -50%) rotate(0deg) translateX(180px) rotate(0deg); 
+    }
+    100% { 
+        transform: translate(-50%, -50%) rotate(360deg) translateX(180px) rotate(-360deg); 
+    }
+}
+
+@keyframes nameGlow {
+    0%, 100% { 
+        opacity: 0.9; 
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.8); 
+    }
+    50% { 
+        opacity: 1; 
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 10px rgba(0, 0, 0, 0.8); 
+    }
+}
+
+@keyframes experienceSubtleGlow {
+    0%, 100% { 
+        opacity: 0.6; 
+    }
+    50% { 
+        opacity: 0.8; 
+    }
+}
+
+/* =================================
+   NAVIGATION
+   ================================= */
+
+/* Journey navigation integrated into main container */
+.journey-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--cipher-space-md);
+    padding: var(--cipher-space-md) 0;
+    flex-shrink: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: var(--cipher-space-md);
+}
+
+/* Enhanced Button Interactions */
+.cipher-btn {
+    pointer-events: auto;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.cipher-btn:focus {
+    outline: none;
+    box-shadow: 
+        0 0 0 2px rgba(255, 215, 0, 0.8),
+        0 8px 32px rgba(255, 215, 0, 0.2);
+    transform: translateY(-1px);
+}
+
+.cipher-btn:focus-visible {
+    outline: 2px solid var(--cipher-gold);
+    outline-offset: 2px;
+}
+
+.cipher-btn:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+.cipher-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Button Loading State */
+.cipher-btn.loading {
+    color: transparent;
+    pointer-events: none;
+}
+
+.cipher-btn.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* =================================
+   ACCESSIBILITY & REDUCED MOTION
+   ================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .cipher-screen {
+        transition: opacity 0.2s ease;
+        transform: none;
+    }
+    
+    .cipher-screen.transitioning-in {
+        animation: none;
+    }
+    
+    .cipher-btn {
+        transition: background-color 0.2s ease;
+    }
+    
+    .cipher-btn:hover,
+    .cipher-btn:focus {
+        transform: none;
+    }
+    
+    .cipher-circle {
+        transition: opacity 0.5s ease;
+    }
+    
+    * {
+        animation-duration: 0.1s !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.1s !important;
+    }
+}
+
+/* =================================
+   TRANSFORMATION SCREEN
+   ================================= */
+
+.cipher-screen#transformationScreen {
+    max-width: 100vw;
+    background: #000;
+}
+
+.transformation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.undecipherable-text {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI Symbol', 'Arial Unicode MS', serif;
+    font-size: 3rem;
+    color: var(--cipher-gold);
+    opacity: 0;
+    animation: undecipherableAnimation 3s ease-in-out;
+}
+
+.final-message {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: 0;
+    animation: finalMessageAnimation 2s ease-in-out 3s forwards;
+}
+
+.final-message h1 {
+    font-size: 4rem;
+    color: var(--cipher-gold);
+    margin-bottom: var(--cipher-space-lg);
+    text-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes undecipherableAnimation {
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes finalMessageAnimation {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* =================================
+   COLOR SCHEME SELECTION
+   ================================= */
+
+.scheme-header {
+    text-align: center;
+    margin-bottom: var(--cipher-space-xl);
+}
+
+.scheme-header h2 {
+    color: var(--cipher-text-primary);
+    font-size: 1.8rem;
+    margin-bottom: var(--cipher-space-md);
+}
+
+.scheme-header p {
+    color: var(--cipher-text-secondary);
+    font-size: 1rem;
+    margin: 0;
+}
+
+.color-schemes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--cipher-space-lg);
+    margin-bottom: var(--cipher-space-lg);
+}
+
+.scheme-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--cipher-space-md);
+    padding: var(--cipher-space-lg);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--cipher-radius-lg);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.scheme-option:hover {
+    border-color: rgba(255, 215, 0, 0.5);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.scheme-option.selected {
+    border-color: var(--cipher-gold);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.scheme-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+}
+
+.classic-preview {
+    background: linear-gradient(135deg, #FFD700 0%, #3B82F6 100%);
+}
+
+.emerald-preview {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+}
+
+.platinum-preview {
+    background: linear-gradient(135deg, #E5E7EB 0%, #6B7280 100%);
+}
+
+.crimson-preview {
+    background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%);
+}
+
+.scheme-option h4 {
+    color: var(--cipher-text-primary);
+    font-size: 1.1rem;
+    margin: 0;
+    font-weight: var(--cipher-font-weight-medium);
+}
+
+.scheme-option p {
+    color: var(--cipher-text-muted);
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* Color Scheme Confirmation Button */
+#confirmScheme {
+    margin-top: var(--cipher-space-lg);
+    margin-bottom: var(--cipher-space-md);
+    padding: var(--cipher-space-lg) var(--cipher-space-xl);
+    font-size: 1.1rem;
+    font-weight: var(--cipher-font-weight-bold);
+    min-width: 250px;
+    width: 100%;
+    max-width: 350px;
+    display: block;
+    position: relative;
+    z-index: 10;
+}
+
+#confirmScheme.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+#confirmScheme.pulse {
+    animation: buttonPulse 2s ease-in-out;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+}
+
+@keyframes buttonPulse {
+    0%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); 
+    }
+    50% { 
+        transform: scale(1.02); 
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.6); 
+    }
+}
+
+/* =================================
+   FINALE SCREEN
+   ================================= */
+
+.finale-content {
+    text-align: center;
+    padding: var(--cipher-space-xl);
+}
+
+.finale-message h1 {
+    font-size: 3rem;
+    color: var(--cipher-gold);
+    margin-bottom: var(--cipher-space-md);
+    text-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
+    animation: finalePulse 3s ease-in-out infinite;
+}
+
+@keyframes finalePulse {
+    0%, 100% { text-shadow: 0 0 40px rgba(255, 215, 0, 0.5); }
+    50% { text-shadow: 0 0 60px rgba(255, 215, 0, 0.8); }
+}
+
+.finale-message p {
+    color: var(--cipher-text-secondary);
+    font-size: 1.2rem;
+    margin-bottom: var(--cipher-space-xl);
+}
+
+.cipher-summary {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--cipher-radius-lg);
+    padding: var(--cipher-space-lg);
+    margin-bottom: var(--cipher-space-xl);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.finale-animation {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cipher-text-muted);
+    font-style: italic;
+}
+
+/* =================================
+   LOGIN INTEGRATION
+   ================================= */
+
+.login-header {
+    margin-bottom: var(--cipher-space-xl);
+}
+
+.login-header h2 {
+    color: var(--cipher-gold);
+    font-size: 2rem;
+    margin-bottom: var(--cipher-space-sm);
+}
+
+.login-header p {
+    color: var(--cipher-text-secondary);
+    font-size: 1rem;
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--cipher-radius-lg);
+    padding: var(--cipher-space-xl);
+}
+
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--cipher-space-lg);
+}
+
+.login-options a {
+    color: var(--cipher-text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.login-options a:hover {
+    color: var(--cipher-gold);
+}
+
+/* =================================
+   RESPONSIVE DESIGN
+   ================================= */
+
+@media (max-width: 768px) {
+    .cipher-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        height: 30vh;
+        opacity: 0.3;
+    }
+    
+    .cipher-interface {
+        padding: var(--cipher-space-md);
+        padding-top: 30vh;
+        padding-right: var(--cipher-space-md);
+        justify-content: center;
+    }
+    
+    .cipher-screen#journeyScreen {
+        right: 0;
+        padding: var(--cipher-space-md);
+        padding-top: 30vh;
+    }
+    
+    .cipher-screen#journeyScreen .cipher-content,
+    .journey-question,
+    .journey-navigation,
+    .cipher-screen#journeyScreen .journey-progress {
+        margin-left: 0;
+        margin-right: 0;
+        max-width: none;
+    }
+    
+    .cipher-content {
+        padding: var(--cipher-space-lg);
+        min-height: 300px;
+    }
+    
+    .logo-text h1 {
+        font-size: 2rem;
+    }
+    
+    .skill-levels {
+        flex-direction: column;
+        gap: var(--cipher-space-md);
+    }
+    
+    .progress-steps {
+        flex-wrap: wrap;
+        gap: var(--cipher-space-sm);
+    }
+    
+    .choice-grid,
+    .cipher-choice-grid {
+        grid-template-columns: 1fr;
+        gap: var(--cipher-space-sm);
+        padding: 0;
+    }
+    
+    .cipher-choice-card {
+        padding: var(--cipher-space-md);
+        min-height: 120px;
+    }
+    
+    .cipher-choice-benefits li {
+        font-size: 0.8rem;
+        margin-bottom: var(--cipher-space-xs);
+    }
+    
+    .journey-navigation {
+        flex-direction: column;
+        gap: var(--cipher-space-sm);
+    }
+    
+    .cipher-circle {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .cipher-circle.expanded {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cipher-interface {
+        padding: var(--cipher-space-md);
+    }
+    
+    .finale-message h1 {
+        font-size: 2.5rem;
+    }
+    
+    .journey-question {
+        padding: var(--cipher-space-lg);
+        min-height: 150px;
+    }
+}

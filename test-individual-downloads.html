@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Individual Downloads</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        .test-btn { padding: 10px 20px; margin: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .test-btn:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Individual PDF Downloads</h1>
+    <p>Testing individual download buttons to ensure they generate separate PDFs correctly.</p>
+    
+    <div id="results"></div>
+    
+    <div>
+        <button class="test-btn" onclick="testDownload('bcif')">Test BCIF Download</button>
+        <button class="test-btn" onclick="testDownload('summary')">Test Summary Download</button>
+        <button class="test-btn" onclick="testDownload('valuation')">Test Valuation Download</button>
+        <button class="test-btn" onclick="testDownload('comparables')">Test Comparables Download</button>
+        <button class="test-btn" onclick="testAllDownloads()">Test All Downloads</button>
+    </div>
+    
+    <!-- PDF Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    
+    <!-- Services -->
+    <script src="scripts/services/pdf-service.js"></script>
+    <script src="scripts/services/google-docs-service.js"></script>
+    
+    <script>
+        let pdfService = new PDFService();
+        let googleDocsService = new GoogleDocsService();
+        let testResults = document.getElementById('results');
+        
+        async function initServices() {
+            const results = [];
+            
+            if (await pdfService.init()) {
+                results.push('✅ PDF Service initialized');
+            } else {
+                results.push('❌ PDF Service failed to initialize');
+            }
+            
+            if (await googleDocsService.init()) {
+                results.push('✅ Google Docs Service initialized');
+            } else {
+                results.push('❌ Google Docs Service failed to initialize');
+            }
+            
+            testResults.innerHTML = results.map(r => `<div class="info">${r}</div>`).join('');
+        }
+        
+        async function testDownload(type) {
+            testResults.innerHTML += `<div class="info">🔄 Testing ${type.toUpperCase()} download...</div>`;
+            
+            try {
+                // Generate test data
+                const mockData = {
+                    claimNumber: '75843210_3',
+                    ownerFirstName: 'JOL',
+                    ownerLastName: 'JOHNSON',
+                    year: '2025',
+                    make: 'LEXUS',
+                    model: 'NX350',
+                    vin: 'JTJBARBZ5R2012345'
+                };
+                
+                let document;
+                let filename;
+                
+                switch(type) {
+                    case 'bcif':
+                        const fieldMapping = await googleDocsService.createBCIFFieldMapping(mockData);
+                        document = { pdfBlob: await pdfService.fillBCIFForm(mockData, fieldMapping) };
+                        filename = `BCIF_${mockData.claimNumber}.pdf`;
+                        break;
+                        
+                    case 'summary':
+                        const summaryContent = await googleDocsService.generateClaimSummary(mockData);
+                        document = { pdfBlob: await pdfService.createSummaryPDF(summaryContent) };
+                        filename = `SUMMARY_${mockData.claimNumber}.pdf`;
+                        break;
+                        
+                    case 'valuation':
+                        const valuationContent = await googleDocsService.generateValuationReport(mockData);
+                        document = { pdfBlob: await pdfService.createValuationPDF(valuationContent) };
+                        filename = `VALUATION_${mockData.claimNumber}.pdf`;
+                        break;
+                        
+                    case 'comparables':
+                        const comparablesContent = await googleDocsService.generateComparablesReport(mockData);
+                        document = { pdfBlob: await pdfService.createComparablesPDF(comparablesContent) };
+                        filename = `COMPARABLES_${mockData.claimNumber}.pdf`;
+                        break;
+                }
+                
+                if (document && document.pdfBlob) {
+                    // Test blob properties
+                    const blob = document.pdfBlob;
+                    testResults.innerHTML += `<div class="success">✅ ${type.toUpperCase()} PDF generated successfully</div>`;
+                    testResults.innerHTML += `<div class="info">📄 Size: ${blob.size} bytes, Type: ${blob.type}</div>`;
+                    
+                    // Trigger download
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = filename;
+                    link.style.display = 'none';
+                    
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                    
+                    testResults.innerHTML += `<div class="success">✅ ${filename} download triggered successfully</div>`;
+                    
+                } else {
+                    testResults.innerHTML += `<div class="error">❌ Failed to generate ${type.toUpperCase()} PDF</div>`;
+                }
+                
+            } catch (error) {
+                testResults.innerHTML += `<div class="error">❌ Error testing ${type}: ${error.message}</div>`;
+                console.error(`Error testing ${type}:`, error);
+            }
+        }
+        
+        async function testAllDownloads() {
+            testResults.innerHTML += `<div class="info">🔄 Testing all downloads with 500ms delays...</div>`;
+            const types = ['bcif', 'summary', 'valuation', 'comparables'];
+            
+            for (let i = 0; i < types.length; i++) {
+                setTimeout(() => testDownload(types[i]), i * 500);
+            }
+        }
+        
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', initServices);
+    </script>
+</body>
+</html>

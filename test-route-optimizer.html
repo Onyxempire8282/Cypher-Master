@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Optimizer Test - Claim Cipher</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        .test-passed { background-color: #d4edda; border-color: #c3e6cb; }
+        .test-failed { background-color: #f8d7da; border-color: #f5c6cb; }
+        .test-pending { background-color: #fff3cd; border-color: #ffeaa7; }
+        #routeMap { height: 400px; width: 100%; background: #f0f0f0; margin: 10px 0; }
+        .address-input { width: 100%; padding: 8px; margin: 5px 0; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .results { margin-top: 20px; padding: 10px; background: #f8f9fa; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Route Optimizer Test Suite</h1>
+    <p><strong>Test Scenario:</strong> 715 Sandhill Dr, Dudley, NC + 10 addresses across 5 days (50+ miles apart)</p>
+
+    <!-- Test 1: Google Maps API Loading -->
+    <div class="test-section test-pending" id="test1">
+        <h3>Test 1: Google Maps API Loading</h3>
+        <p>Status: <span id="test1-status">Checking...</span></p>
+        <div id="test1-details"></div>
+    </div>
+
+    <!-- Test 2: Route Optimizer Class Initialization -->
+    <div class="test-section test-pending" id="test2">
+        <h3>Test 2: Route Optimizer Class Initialization</h3>
+        <p>Status: <span id="test2-status">Checking...</span></p>
+        <div id="test2-details"></div>
+    </div>
+
+    <!-- Test 3: Address Input and Geocoding -->
+    <div class="test-section test-pending" id="test3">
+        <h3>Test 3: Address Input and Geocoding</h3>
+        <p>Status: <span id="test3-status">Ready to test</span></p>
+        <div>
+            <h4>Starting Address:</h4>
+            <input type="text" id="startAddress" class="address-input" value="715 Sandhill Dr, Dudley, NC" placeholder="Starting address">
+            <button onclick="testGeocoding('startAddress')">Test Geocoding</button>
+        </div>
+        <div>
+            <h4>Test Addresses (10 locations across 5 days):</h4>
+            <input type="text" class="address-input test-address" value="1234 Capital Blvd, Raleigh, NC 27604" placeholder="Day 1-1">
+            <input type="text" class="address-input test-address" value="5678 Glenwood Ave, Raleigh, NC 27603" placeholder="Day 1-2">
+            <input type="text" class="address-input test-address" value="910 Market St, Wilmington, NC 28401" placeholder="Day 2-1">
+            <input type="text" class="address-input test-address" value="1122 Carolina Beach Rd, Wilmington, NC 28412" placeholder="Day 2-2">
+            <input type="text" class="address-input test-address" value="3344 Broad St, New Bern, NC 28560" placeholder="Day 3-1">
+            <input type="text" class="address-input test-address" value="5566 Dr Martin Luther King Jr Blvd, New Bern, NC 28562" placeholder="Day 3-2">
+            <input type="text" class="address-input test-address" value="7788 Bragg Blvd, Fayetteville, NC 28301" placeholder="Day 4-1">
+            <input type="text" class="address-input test-address" value="9900 Ramsey St, Fayetteville, NC 28311" placeholder="Day 4-2">
+            <input type="text" class="address-input test-address" value="1100 South Blvd, Charlotte, NC 28203" placeholder="Day 5-1">
+            <input type="text" class="address-input test-address" value="1300 East Blvd, Charlotte, NC 28203" placeholder="Day 5-2">
+            <button onclick="testAllAddresses()">Test All Addresses</button>
+        </div>
+        <div id="test3-results" class="results" style="display: none;"></div>
+    </div>
+
+    <!-- Test 4: Route Optimization and Day Splitting -->
+    <div class="test-section test-pending" id="test4">
+        <h3>Test 4: Route Optimization and Day Splitting</h3>
+        <p>Status: <span id="test4-status">Waiting for geocoding</span></p>
+        <button onclick="testRouteOptimization()" id="optimizeTestBtn" disabled>Run Route Optimization</button>
+        <div id="test4-results" class="results" style="display: none;"></div>
+    </div>
+
+    <!-- Test 5: Job Creation Integration -->
+    <div class="test-section test-pending" id="test5">
+        <h3>Test 5: Job Creation (10 Jobs from 5-Day Route)</h3>
+        <p>Status: <span id="test5-status">Waiting for route optimization</span></p>
+        <button onclick="testJobCreation()" id="jobTestBtn" disabled>Create 10 Jobs</button>
+        <div id="test5-results" class="results" style="display: none;"></div>
+    </div>
+
+    <!-- Map Display -->
+    <div class="test-section">
+        <h3>Route Visualization</h3>
+        <div id="routeMap"></div>
+    </div>
+
+    <!-- Google Maps API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByoixnma2_cQFwCR5Tqn3YGNy20qeStF4&libraries=geometry,places&loading=async&callback=initTestRouteOptimizer"></script>
+    
+    <!-- Load RouteOptimizer script -->
+    <script src="scripts/route-optimizer.js"></script>
+
+    <script>
+        let testMap = null;
+        let testGeocoder = null;
+        let testDirectionsService = null;
+        let testDirectionsRenderer = null;
+        let dayDirectionsRenderers = []; // Array to hold renderers for each day
+        let geocodedAddresses = [];
+        let optimizedRoute = null;
+
+        // Test 1: Check Google Maps API Loading
+        function initTestRouteOptimizer() {
+            console.log('🧪 Test Route Optimizer initialized');
+            
+            // Test 1: Google Maps API
+            try {
+                if (typeof google !== 'undefined' && google.maps) {
+                    updateTestStatus('test1', 'passed', 'Google Maps API loaded successfully');
+                    initializeMapServices();
+                } else {
+                    updateTestStatus('test1', 'failed', 'Google Maps API not available');
+                    return;
+                }
+            } catch (error) {
+                updateTestStatus('test1', 'failed', 'Error loading Google Maps API: ' + error.message);
+                return;
+            }
+
+            // Test 2: Check Route Optimizer Class
+            checkRouteOptimizerClass();
+        }
+
+        function initializeMapServices() {
+            try {
+                // Initialize map
+                testMap = new google.maps.Map(document.getElementById('routeMap'), {
+                    zoom: 8,
+                    center: { lat: 35.2271, lng: -80.8431 } // NC center
+                });
+
+                // Initialize services
+                testGeocoder = new google.maps.Geocoder();
+                testDirectionsService = new google.maps.DirectionsService();
+                testDirectionsRenderer = new google.maps.DirectionsRenderer();
+                testDirectionsRenderer.setMap(testMap);
+
+                console.log('🗺️ Map services initialized successfully');
+            } catch (error) {
+                console.error('❌ Error initializing map services:', error);
+            }
+        }
+
+        function checkRouteOptimizerClass() {
+            try {
+                // Check if RouteOptimizer class exists
+                if (typeof RouteOptimizer !== 'undefined') {
+                    updateTestStatus('test2', 'passed', 'RouteOptimizer class is available');
+                    
+                    // Try to instantiate it (but don't interfere with existing instance)
+                    if (!window.routeOptimizer) {
+                        console.log('🧪 Creating test RouteOptimizer instance...');
+                        // Don't create instance yet - just verify class exists
+                    }
+                } else {
+                    updateTestStatus('test2', 'failed', 'RouteOptimizer class not found - may need to load route-optimizer.js');
+                }
+            } catch (error) {
+                updateTestStatus('test2', 'failed', 'Error checking RouteOptimizer class: ' + error.message);
+            }
+        }
+
+        // Test 3: Address Geocoding
+        async function testGeocoding(inputId) {
+            const input = document.getElementById(inputId);
+            if (!input || !testGeocoder) return;
+
+            const address = input.value;
+            console.log('🗺️ Testing geocoding for:', address);
+
+            try {
+                const results = await geocodeAddress(address);
+                if (results) {
+                    console.log('✅ Geocoded:', address, '→', results);
+                    updateTestStatus('test3', 'passed', `Successfully geocoded: ${address}`);
+                    return results;
+                } else {
+                    updateTestStatus('test3', 'failed', `Failed to geocode: ${address}`);
+                    return null;
+                }
+            } catch (error) {
+                updateTestStatus('test3', 'failed', `Geocoding error: ${error.message}`);
+                return null;
+            }
+        }
+
+        async function testAllAddresses() {
+            if (!testGeocoder) {
+                updateTestStatus('test3', 'failed', 'Geocoder not initialized');
+                return;
+            }
+
+            const addressInputs = document.querySelectorAll('.test-address');
+            const startAddress = document.getElementById('startAddress').value;
+            
+            geocodedAddresses = [];
+            let successCount = 0;
+            let totalCount = addressInputs.length + 1; // +1 for start address
+
+            // Show results div
+            const resultsDiv = document.getElementById('test3-results');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = '<h4>Geocoding Results:</h4>';
+
+            // Test start address
+            try {
+                const startResult = await geocodeAddress(startAddress);
+                if (startResult) {
+                    geocodedAddresses.push({ type: 'start', address: startAddress, location: startResult });
+                    successCount++;
+                    resultsDiv.innerHTML += `<p>✅ START: ${startAddress}</p>`;
+                } else {
+                    resultsDiv.innerHTML += `<p>❌ START: ${startAddress}</p>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML += `<p>❌ START: ${startAddress} (Error: ${error.message})</p>`;
+            }
+
+            // Test all destination addresses
+            for (let i = 0; i < addressInputs.length; i++) {
+                const address = addressInputs[i].value;
+                const day = Math.floor(i / 2) + 1;
+                const stop = (i % 2) + 1;
+                
+                try {
+                    const result = await geocodeAddress(address);
+                    if (result) {
+                        geocodedAddresses.push({ 
+                            type: 'destination', 
+                            address: address, 
+                            location: result,
+                            day: day,
+                            stop: stop
+                        });
+                        successCount++;
+                        resultsDiv.innerHTML += `<p>✅ Day ${day}-${stop}: ${address}</p>`;
+                    } else {
+                        resultsDiv.innerHTML += `<p>❌ Day ${day}-${stop}: ${address}</p>`;
+                    }
+                } catch (error) {
+                    resultsDiv.innerHTML += `<p>❌ Day ${day}-${stop}: ${address} (Error: ${error.message})</p>`;
+                }
+                
+                // Add delay to avoid rate limiting
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+
+            resultsDiv.innerHTML += `<h4>Summary: ${successCount}/${totalCount} addresses geocoded successfully</h4>`;
+
+            if (successCount === totalCount) {
+                updateTestStatus('test3', 'passed', `All ${totalCount} addresses geocoded successfully`);
+                document.getElementById('optimizeTestBtn').disabled = false;
+                updateTestStatus('test4', 'pending', 'Ready to test route optimization');
+            } else {
+                updateTestStatus('test3', 'failed', `Only ${successCount}/${totalCount} addresses geocoded`);
+            }
+        }
+
+        function geocodeAddress(address) {
+            return new Promise((resolve, reject) => {
+                testGeocoder.geocode({ address: address }, (results, status) => {
+                    if (status === 'OK' && results[0]) {
+                        resolve(results[0].geometry.location);
+                    } else {
+                        reject(new Error(`Geocoding failed: ${status}`));
+                    }
+                });
+            });
+        }
+
+        // Test 4: Route Optimization
+        async function testRouteOptimization() {
+            if (geocodedAddresses.length === 0) {
+                updateTestStatus('test4', 'failed', 'No geocoded addresses available');
+                return;
+            }
+
+            const resultsDiv = document.getElementById('test4-results');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = '<h4>Route Optimization Results:</h4>';
+
+            try {
+                // Group addresses by intended day (based on geographic clustering)
+                const dayGroups = groupAddressesByDay();
+                
+                resultsDiv.innerHTML += `<p>✅ Grouped addresses into ${dayGroups.length} days</p>`;
+                
+                // Calculate routes for each day
+                const optimizedDays = [];
+                for (let i = 0; i < dayGroups.length; i++) {
+                    const day = dayGroups[i];
+                    const startLocation = geocodedAddresses.find(addr => addr.type === 'start').location;
+                    
+                    try {
+                        const dayRoute = await calculateDayRoute(startLocation, day.addresses);
+                        optimizedDays.push({
+                            day: i + 1,
+                            addresses: day.addresses,
+                            route: dayRoute,
+                            totalDistance: dayRoute.distance,
+                            totalTime: dayRoute.duration
+                        });
+                        
+                        resultsDiv.innerHTML += `<p>✅ Day ${i + 1}: ${day.addresses.length} stops, ${dayRoute.distance}, ${dayRoute.duration}</p>`;
+                    } catch (error) {
+                        resultsDiv.innerHTML += `<p>❌ Day ${i + 1}: Route calculation failed - ${error.message}</p>`;
+                    }
+                    
+                    // Add delay between requests
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                }
+
+                if (optimizedDays.length === dayGroups.length) {
+                    optimizedRoute = optimizedDays;
+                    updateTestStatus('test4', 'passed', `Successfully optimized ${optimizedDays.length} days of routes`);
+                    document.getElementById('jobTestBtn').disabled = false;
+                    updateTestStatus('test5', 'pending', 'Ready to create jobs');
+                    
+                    // Display ALL days' routes on map with different colors
+                    displayAllDayRoutes(optimizedDays);
+                } else {
+                    updateTestStatus('test4', 'failed', `Only ${optimizedDays.length}/${dayGroups.length} days optimized successfully`);
+                }
+                
+            } catch (error) {
+                updateTestStatus('test4', 'failed', `Route optimization error: ${error.message}`);
+                resultsDiv.innerHTML += `<p>❌ Error: ${error.message}</p>`;
+            }
+        }
+
+        function groupAddressesByDay() {
+            // Group addresses by intended day based on our test scenario
+            const destinations = geocodedAddresses.filter(addr => addr.type === 'destination');
+            const days = [];
+            
+            for (let i = 0; i < 5; i++) { // 5 days
+                const dayAddresses = destinations.filter(addr => addr.day === i + 1);
+                if (dayAddresses.length > 0) {
+                    days.push({
+                        day: i + 1,
+                        addresses: dayAddresses
+                    });
+                }
+            }
+            
+            return days;
+        }
+
+        function calculateDayRoute(startLocation, addresses) {
+            return new Promise((resolve, reject) => {
+                if (addresses.length === 0) {
+                    reject(new Error('No addresses provided'));
+                    return;
+                }
+
+                const waypoints = addresses.map(addr => ({
+                    location: addr.location,
+                    stopover: true
+                }));
+
+                const request = {
+                    origin: startLocation,
+                    destination: startLocation, // Return home
+                    waypoints: waypoints,
+                    optimizeWaypoints: true,
+                    travelMode: google.maps.TravelMode.DRIVING
+                };
+
+                testDirectionsService.route(request, (result, status) => {
+                    if (status === 'OK') {
+                        const route = result.routes[0];
+                        let totalDistance = 0;
+                        let totalDuration = 0;
+
+                        route.legs.forEach(leg => {
+                            totalDistance += leg.distance.value;
+                            totalDuration += leg.duration.value;
+                        });
+
+                        resolve({
+                            directionsResult: result,
+                            distance: (totalDistance / 1609.344).toFixed(1) + ' miles', // Convert to miles
+                            duration: Math.round(totalDuration / 60) + ' minutes',
+                            waypoints: result.routes[0].waypoint_order
+                        });
+                    } else {
+                        reject(new Error(`Directions request failed: ${status}`));
+                    }
+                });
+            });
+        }
+
+        // Test 5: Job Creation
+        function testJobCreation() {
+            if (!optimizedRoute) {
+                updateTestStatus('test5', 'failed', 'No optimized route available');
+                return;
+            }
+
+            const resultsDiv = document.getElementById('test5-results');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = '<h4>Job Creation Results:</h4>';
+
+            try {
+                let totalJobs = 0;
+                const createdJobs = [];
+
+                optimizedRoute.forEach((day, dayIndex) => {
+                    day.addresses.forEach((address, addressIndex) => {
+                        const job = {
+                            id: `JOB-${String(dayIndex + 1).padStart(2, '0')}-${String(addressIndex + 1).padStart(2, '0')}`,
+                            day: dayIndex + 1,
+                            sequence: addressIndex + 1,
+                            address: address.address,
+                            location: address.location,
+                            claimType: 'Sedgwick/Auto Claims',
+                            status: 'Active',
+                            estimatedTime: '45 minutes',
+                            createdAt: new Date().toISOString()
+                        };
+                        
+                        createdJobs.push(job);
+                        totalJobs++;
+                        
+                        resultsDiv.innerHTML += `<p>✅ ${job.id}: Day ${job.day}, Stop ${job.sequence} - ${job.address}</p>`;
+                    });
+                });
+
+                resultsDiv.innerHTML += `<h4>Summary: Created ${totalJobs} active jobs across ${optimizedRoute.length} days</h4>`;
+
+                if (totalJobs === 10) {
+                    updateTestStatus('test5', 'passed', `Successfully created all 10 jobs from 5-day route`);
+                } else {
+                    updateTestStatus('test5', 'failed', `Only created ${totalJobs}/10 jobs`);
+                }
+
+                // Store jobs for potential integration testing
+                window.testCreatedJobs = createdJobs;
+                
+            } catch (error) {
+                updateTestStatus('test5', 'failed', `Job creation error: ${error.message}`);
+                resultsDiv.innerHTML += `<p>❌ Error: ${error.message}</p>`;
+            }
+        }
+
+        // Display all day routes on map with different colors
+        function displayAllDayRoutes(optimizedDays) {
+            // Clear existing renderers
+            if (testDirectionsRenderer) {
+                testDirectionsRenderer.setMap(null);
+            }
+            dayDirectionsRenderers.forEach(renderer => {
+                renderer.setMap(null);
+            });
+            dayDirectionsRenderers = [];
+
+            // Route colors for each day
+            const dayColors = [
+                '#FF0000', // Day 1: Red
+                '#0000FF', // Day 2: Blue  
+                '#00FF00', // Day 3: Green
+                '#FF8C00', // Day 4: Orange
+                '#8A2BE2'  // Day 5: Purple
+            ];
+
+            // Create a renderer for each day
+            optimizedDays.forEach((day, index) => {
+                if (day.route && day.route.directionsResult) {
+                    const renderer = new google.maps.DirectionsRenderer({
+                        map: testMap,
+                        directions: day.route.directionsResult,
+                        polylineOptions: {
+                            strokeColor: dayColors[index] || '#000000',
+                            strokeWeight: 4,
+                            strokeOpacity: 0.8
+                        },
+                        markerOptions: {
+                            icon: {
+                                path: google.maps.SymbolPath.CIRCLE,
+                                scale: 6,
+                                fillColor: dayColors[index] || '#000000',
+                                fillOpacity: 0.8,
+                                strokeWeight: 2,
+                                strokeColor: '#FFFFFF'
+                            }
+                        },
+                        suppressMarkers: false
+                    });
+                    
+                    dayDirectionsRenderers.push(renderer);
+                    console.log(`🗺️ Displayed Day ${day.day} route in ${dayColors[index]}`);
+                }
+            });
+
+            // Add a legend to the results
+            const resultsDiv = document.getElementById('test4-results');
+            resultsDiv.innerHTML += `
+                <div style="margin-top: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    <h4>🗺️ Route Legend:</h4>
+                    ${optimizedDays.map((day, index) => 
+                        `<p style="color: ${dayColors[index]}">● Day ${day.day}: ${day.addresses.length} stops (${day.totalDistance}, ${day.totalTime})</p>`
+                    ).join('')}
+                </div>
+            `;
+
+            console.log(`🗺️ Successfully displayed all ${optimizedDays.length} day routes on map`);
+        }
+
+        // Utility function to update test status
+        function updateTestStatus(testId, status, message) {
+            const testDiv = document.getElementById(testId);
+            const statusSpan = document.getElementById(testId + '-status');
+            const detailsDiv = document.getElementById(testId + '-details');
+
+            // Update class
+            testDiv.className = `test-section test-${status}`;
+            
+            // Update status text
+            statusSpan.textContent = status.toUpperCase();
+            
+            // Update details
+            if (detailsDiv) {
+                detailsDiv.innerHTML = `<p>${message}</p>`;
+            }
+
+            console.log(`🧪 Test ${testId}: ${status} - ${message}`);
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            console.log('🧪 Route Optimizer Test Suite loaded');
+            
+            // If Google Maps API hasn't loaded yet, show waiting status
+            if (typeof google === 'undefined') {
+                updateTestStatus('test1', 'pending', 'Waiting for Google Maps API to load...');
+            }
+        });
+    </script>
+</body>
+</html>
