@@ -82,11 +82,34 @@
         <div id="routeMap"></div>
     </div>
 
-    <!-- Google Maps API -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByoixnma2_cQFwCR5Tqn3YGNy20qeStF4&libraries=geometry,places&loading=async&callback=initTestRouteOptimizer"></script>
+    <!-- Load secure configuration first -->
+    <script src="config/secure-local-config.js"></script>
+    <script src="config/env-config.js"></script>
+    <script src="config/api-config.js"></script>
+    <!-- Google Maps API loaded dynamically via secure config -->
     
     <!-- Load RouteOptimizer script -->
     <script src="scripts/route-optimizer.js"></script>
+
+    <script>
+        // Load Google Maps API with secure configuration
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for environment config to load, then load Google Maps
+            setTimeout(() => {
+                if (window.loadGoogleMapsAPI) {
+                    window.loadGoogleMapsAPI(['geometry', 'places'], 'initTestRouteOptimizer');
+                } else {
+                    console.error('❌ Environment configuration not loaded');
+                }
+            }, 100);
+        });
+
+        // Test route optimizer initialization
+        function initTestRouteOptimizer() {
+            console.log('🧪 Test Route Optimizer initializing...');
+            // Your test initialization code here
+        }
+    </script>
 
     <script>
         let testMap = null;

@@ -97,12 +97,28 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config/dev-config.js"></script>
     <script src="config/supabase-config.js"></script>
+    <script src="config/secure-local-config.js"></script>
+    <script src="config/env-config.js"></script>
     <script src="config/api-config.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByoixnma2_cQFwCR5Tqn3YGNy20qeStF4&libraries=geometry&loading=async"></script>
+    <!-- Google Maps API loaded dynamically via secure config -->
     <script src="scripts/auth-service.js"></script>
     <script src="scripts/billing-system/job-billing-service.js"></script>
     <script src="scripts/jobs/jobs-studio-controller.js"></script>
     <script src="scripts/master-interface-controller.js"></script>
+
+    <script>
+        // Load Google Maps API with secure configuration
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for environment config to load, then load Google Maps
+            setTimeout(() => {
+                if (window.loadGoogleMapsAPI) {
+                    window.loadGoogleMapsAPI(['geometry']);
+                } else {
+                    console.error('❌ Environment configuration not loaded');
+                }
+            }, 100);
+        });
+    </script>
     <script src="scripts/mileage-cypher-combined.js"></script>
     
     <script>

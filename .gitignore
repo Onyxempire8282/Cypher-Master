@@ -12,6 +12,8 @@ config/secrets.js
 **/api-keys.*
 **/secrets.*
 **/credentials.*
+config/secure-local-config.js
+config/api-config-production.js
 
 # IDE files
 .vscode/
